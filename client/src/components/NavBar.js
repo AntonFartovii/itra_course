@@ -5,30 +5,50 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
 
-import {NavLink} from "react-router-dom";
-import {SHOP_ROUTE} from "../utils/consts";
+import {NavLink, useNavigate} from "react-router-dom";
+import {LOGIN_ROUTE, SHOP_ROUTE} from "../utils/consts.js";
 import {observer} from "mobx-react-lite";
 
 const NavBar = observer(() => {
     const {user} = useContext(Context)
+    const navigate = useNavigate()
 
+    const logout = () => {
+        user.setIsAuth(false)
+        navigate(LOGIN_ROUTE)
+    }
     return (
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="light" className="mb-3">
             <Container>
-            <NavLink to={SHOP_ROUTE} style={{color: 'white'}}>Купи Девайс</NavLink>
-                {user.isAuth
-                    ?    <Nav className="ml-auto" style={{color: 'white'}}>
-                            <Button onClick={() => user.setIsAuth(false)}  variant={"outline-light"}>Выйти</Button>
-                            <Button className="ml-2" variant={"outline-light"}>Админ панель</Button>
-                        </Nav>
+                <Navbar.Brand>
+                    <NavLink to={SHOP_ROUTE} style={{color: 'black'}}>MyCollection</NavLink>
+                </Navbar.Brand>
+                <Button variant="link">User page</Button>
+                <Form className="d-flex">
+                    <Form.Control
+                        type="search"
+                        placeholder="Search"
+                        className="me-2"
+                        aria-label="Search"
+                    />
+                    <Button variant="outline-success">Search</Button>
+                </Form>
+                    {user.isAuth
+                        ?    <Nav className="ml-auto" style={{color: '#000'}}>
+                                <Button className="ml-2" variant="secondary">Админ панель</Button>
+                                <Button  onClick={() => logout()}  variant="danger">Logout</Button>
+                            </Nav>
 
-                    :   <Nav className="ml-auto" style={{color: 'white'}}>
-                            <Button onClick={() => user.setIsAuth(true)} variant={"outline-light"}>Авторизация</Button>
-                        </Nav>
-                }
+                        :   <Nav className="ml-auto" style={{color: '#000'}}>
+                                <Button onClick={() => navigate(LOGIN_ROUTE)} variant="secondary">Авторизация</Button>
+                            </Nav>
+                    }
+
             </Container>
         </Navbar>
+
     );
 });
 

@@ -51,14 +51,8 @@ export class AuthController {
 
     async delete(req, res, next) {
         try {
-            await authService.delete(req.user.email)
-        } catch (e) {
-            next(e)
-        }
-    }
-
-    async refresh(req, res, next) {
-        try {
+            const user = await authService.delete(req.user.email)
+            if (!user) throw new Error('');
         } catch (e) {
             next(e)
         }
@@ -66,10 +60,22 @@ export class AuthController {
 
     async activate(req, res, next) {
         try {
+            const activationLink = req.params.link
+            console.log( activationLink )
+            await authService.activate(activationLink)
+            return res.redirect(process.env.CLIENT_URL)
         } catch (e) {
             next(e)
         }
     }
+    async refresh(req, res, next) {
+        try {
+        } catch (e) {
+            next(e)
+        }
+    }
+
+
 }
 
 export const authController = new AuthController()

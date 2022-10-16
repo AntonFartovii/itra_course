@@ -27,7 +27,7 @@ class AuthService {
 
         await mailService.sendActivationMail(
             email,
-            `${process.env.API_URL}/api/activate/${activationLink}`
+            `${process.env.API_URL}/api/auth/activate/${activationLink}`
         )
 
         const {accessToken, refreshToken} =
@@ -65,13 +65,16 @@ class AuthService {
     }
 
     async delete(email) {
-        const user = await User.findOne({where: {email}})
-        if (!user) {
-            throw ApiError.badRequest(`User with ${email} does not exist`)
-        }
-
+        const user = await authService.delete(email)
+        if (!user) throw new Error('');
         return await User.destroy(user)
+    }
 
+    async activate(link) {
+        const user = await User.findOne({where: {activationLink: link}})
+        if (!user) throw new Error('');
+        user.isActivated = true
+        await user.save()
     }
 }
 
