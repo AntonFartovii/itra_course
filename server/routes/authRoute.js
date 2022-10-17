@@ -14,6 +14,5 @@ router.post('/check', await authController.check)
 router.post('/logout', await authController.logout)
 router.get('/activate/:link', await authController.activate)
 router.get('/refresh', await authController.refresh)
-router.delete('/delete', await authController.delete)
 
 export {router as authRouter}

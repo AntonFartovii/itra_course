@@ -23,6 +23,7 @@ export class AuthController {
        try {
            const {email, password} = req.body
            const userData = await authService.login(email, password)
+           res.cookie('refreshToken', userData.refreshToken, {maxAge:30*24*60*60*1000, httpOnly: true})
            return res.json( userData )
        } catch (e) {
            next(e)
@@ -51,8 +52,8 @@ export class AuthController {
 
     async delete(req, res, next) {
         try {
-            const user = await authService.delete(req.user.email)
-            if (!user) throw new Error('');
+            await authService.delete( req.params.email )
+            return res.redirect(process.env.CLIENT_URL)
         } catch (e) {
             next(e)
         }
@@ -68,8 +69,13 @@ export class AuthController {
             next(e)
         }
     }
+
     async refresh(req, res, next) {
         try {
+            const {refreshToken} = req.cookie
+            const userData = await authService.refresh(refreshToken)
+            res.cookie('refreshToken', userData.refreshToken, {maxAge:30*24*60*60*1000, httpOnly: true})
+            return res.json( userData )
         } catch (e) {
             next(e)
         }

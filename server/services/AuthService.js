@@ -1,62 +1,49 @@
 import {ApiError} from "../error/ApiError.js";
-import {User} from "../models/models.js";
+import {UserModel} from "../models/models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import * as uuid from 'uuid'
 import {mailService} from "./MailService.js";
 import {tokenService} from "./TokenService.js";
+import {RoleModel} from "../models/models.js";
 
 class AuthService {
 
-    async registration(email, password, role) {
+    async registration(email, password, roles = ['USER']) {
 
         if (!email || !password) {
             throw ApiError.badRequest(`Un correct email ${email}`)
         }
 
-        const candidate = await User.findOne({where: {email}})
-        if (candidate) {
-            throw ApiError.badRequest(`User with ${email} exist yet`)
-        }
+        await isCandidate( email )
 
-        const hashPassword = await bcrypt.hash(password, 5)
+        const hashPass = await bcrypt.hash(password, 5)
         const activationLink = uuid.v4()
 
-        const user =
-            await User.create({email, role, password: hashPassword, activationLink})
-
-        await mailService.sendActivationMail(
-            email,
-            `${process.env.API_URL}/api/auth/activate/${activationLink}`
-        )
-
-        const {accessToken, refreshToken} =
-            await tokenService.generateTokens(user.id, user.email, user.role)
-
-        await tokenService.saveToken(user.id, refreshToken)
-        return {accessToken, refreshToken}
-
+        const user = await UserModel.create({email, password: hashPass, activationLink})
+        await addRole( user, roles )
+        await sendMail( email, activationLink)
+        return createTokens( user )
     }
 
     async login(email, password) {
 
-        const user = await User.findOne({where: {email}})
+        const user = await UserModel.findOne({where: {email}})
         if (!user) {
-            throw ApiError.badRequest(`User with ${email} exist yet`)
+            throw ApiError.badRequest(`User with ${email} does not exist`)
         }
 
         let comparePassword = bcrypt.compareSync(password, user.password)
         if (!comparePassword) {
-            throw ApiError.badRequest(`User with ${email} exist yet`)
+            throw ApiError.badRequest(`Uncorrect password `)
         }
 
-        const {accessToken, refreshToken} = await tokenService.generateTokens(user.id, user.email, user.role)
-        return {accessToken, refreshToken}
+        return createTokens( user )
     }
 
     async logout(refreshToken) {
-        // const token = await tokenService.removeToken(refreshToken)
-        // return token
+        const token = await tokenService.removeToken(refreshToken)
+        return token
     }
 
     async check(id, email, role) {
@@ -65,16 +52,64 @@ class AuthService {
     }
 
     async delete(email) {
-        const user = await authService.delete(email)
+        console.log( email )
+        const user = await UserModel.findOne({where: {email: email}})
         if (!user) throw new Error('');
-        return await User.destroy(user)
+        return await UserModel.destroy({where: {email: email}})
     }
 
     async activate(link) {
-        const user = await User.findOne({where: {activationLink: link}})
+        const user = await UserModel.findOne({where: {activationLink: link}})
         if (!user) throw new Error('');
         user.isActivated = true
         await user.save()
+    }
+
+    async refresh(refreshToken) {
+        if (!refreshToken) {
+            throw ApiError.unAuthorizedError()
+        }
+
+        const userData = tokenService.validateRefreshToken(refreshToken)
+        const tokenFromDb = await tokenService.findToken(refreshToken)
+
+        if( !userData || !tokenFromDb ) {
+            throw ApiError.unAuthorizedError()
+        }
+
+        const user = await UserModel.findOne({where: {id: userData.id}})
+        return createTokens( user )
+    }
+
+}
+
+async function createTokens( user ) {
+    const {accessToken, refreshToken} = await tokenService.generateTokens(user.id, user.email, user.role)
+    await tokenService.saveToken(user.id, refreshToken)
+    return {accessToken, refreshToken}
+}
+
+async function sendMail( email, activationLink ) {
+    await mailService.sendActivationMail(
+        email,
+        `${process.env.API_URL}/api/auth/activate/${activationLink}`
+    )
+
+}
+
+async function addRole( user, roles) {
+    roles.forEach( async (value) => {
+        const role =
+            await RoleModel.findOne({where:{value}})
+            || await RoleModel.create({value})
+        await user.addRole( role )
+    })
+}
+
+async function isCandidate(email) {
+    const candidate = await UserModel.findOne({where: {email}})
+    if (candidate) {
+        throw ApiError.badRequest(`User with ${email} exist yet`)
     }
 }
 
