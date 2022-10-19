@@ -11,8 +11,10 @@ class UserService {
     }
 
     async getUserById( id ) {
-        const user = await userModel.findOne({where: {id}, include: [RoleModel]})
-        return user
+
+        const userData = await userModel.findOne({where: {id}, include: [RoleModel]})
+        let {password, ...data} = userData.dataValues
+        return data
     }
 
     async role( id, value ) {

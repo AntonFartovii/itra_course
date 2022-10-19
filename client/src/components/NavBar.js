@@ -8,7 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 
 import {NavLink, useNavigate} from "react-router-dom";
-import {LOGIN_ROUTE, SHOP_ROUTE} from "../utils/consts.js";
+import {LOGIN_ROUTE, MAIN_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {ADMIN_ROUTE, USER_ROUTE} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 
 const NavBar = observer(() => {
@@ -23,9 +24,8 @@ const NavBar = observer(() => {
         <Navbar bg="light" className="mb-3">
             <Container>
                 <Navbar.Brand>
-                    <NavLink to={SHOP_ROUTE} style={{color: 'black'}}>MyCollection</NavLink>
+                    <NavLink to={MAIN_ROUTE} style={{color: 'black'}}>MyCollection</NavLink>
                 </Navbar.Brand>
-                <Button variant="link">User page</Button>
                 <Form className="d-flex">
                     <Form.Control
                         type="search"
@@ -37,12 +37,35 @@ const NavBar = observer(() => {
                 </Form>
                     {user.isAuth
                         ?    <Nav className="ml-auto" style={{color: '#000'}}>
-                                <Button className="ml-2" variant="secondary">Админ панель</Button>
-                                <Button  onClick={() => logout()}  variant="danger">Logout</Button>
+                                <Button
+                                    onClick={() => navigate(USER_ROUTE)}
+                                    className="ml-2"
+                                    variant="secondary"
+                                >
+                                    User page
+                                </Button>
+                                <Button
+                                    onClick={() => navigate(ADMIN_ROUTE)}
+                                    className="ml-2"
+                                    variant="secondary"
+                                >
+                                    Admin page
+                                </Button>
+                                <Button
+                                    onClick={() => logout()}
+                                    variant="danger"
+                                >
+                                    Logout
+                                </Button>
                             </Nav>
 
                         :   <Nav className="ml-auto" style={{color: '#000'}}>
-                                <Button onClick={() => navigate(LOGIN_ROUTE)} variant="secondary">Авторизация</Button>
+                                <Button
+                                    onClick={() => navigate(LOGIN_ROUTE)}
+                                    variant="secondary"
+                                >
+                                    SignIn
+                                </Button>
                             </Nav>
                     }
 

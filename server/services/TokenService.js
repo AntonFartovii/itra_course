@@ -3,12 +3,12 @@ import {TokenModel as tokenModel} from "../models/models.js";
 
 class TokenService {
 
-    generateTokens = (id, email, role) => {
+    generateTokens = (id, email) => {
         const accessToken = jwt.sign(
-            {id, email, role}, process.env.JWT_ACCESS_SECRET,{expiresIn: '24h'}
+            {id, email}, process.env.JWT_ACCESS_SECRET,{expiresIn: '24h'}
         )
         const refreshToken = jwt.sign(
-            {id, email, role}, process.env.JWT_REFRESH_SECRET,{expiresIn: '24d'}
+            {id, email}, process.env.JWT_REFRESH_SECRET,{expiresIn: '24d'}
         )
         return {accessToken, refreshToken}
     }
@@ -33,6 +33,7 @@ class TokenService {
 
     validateAccessToken(token) {
         try {
+            console.log()
             return jwt.verify(token, process.env.JWT_ACCESS_SECRET)
         } catch (e) {
             return null

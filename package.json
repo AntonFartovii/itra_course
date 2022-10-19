@@ -1,0 +1,12 @@
+{
+  "name": "itracourse",
+  "version": "1.0.0",
+  "description": "1. heroku login\r 2. heroku create\r * https://itracourse.herokuapp.com/\r * \r 3. git init\r 4. heroku git:remote -a protected-sands-49955\r ...\r 5. git push heroku master",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build --prefix client & npm run start --prefix server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -15,7 +15,7 @@ class UserController {
         try {
             const id = req.params.id
             const user = await userService.getUserById( id )
-            return res.json( user )
+            return res.send( user )
         } catch (e) {
             next(e)
         }

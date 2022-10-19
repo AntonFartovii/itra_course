@@ -7,6 +7,7 @@ import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {login, registration} from "../http/userAPI.js";
 import {Context} from "../index.js";
 import {SHOP_ROUTE} from "../utils/consts.js";
+import {MAIN_ROUTE} from "../utils/consts";
 
 const Auth = () => {
     const {user} = useContext(Context)
@@ -20,13 +21,15 @@ const Auth = () => {
         try {
             let data
             if (isLogin) {
+
                 data = await login(email, password)
+                console.log(data);
             } else {
                 data = await registration(email, password)
             }
             user.setUser(data)
             user.setIsAuth(true)
-            navigate(SHOP_ROUTE)
+            navigate(MAIN_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
         }

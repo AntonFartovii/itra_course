@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm run start --prefix client & node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {

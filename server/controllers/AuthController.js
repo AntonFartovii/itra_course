@@ -43,8 +43,9 @@ export class AuthController {
 
     async check(req, res, next) {
         try {
-            const token = await authService.check(req.user.id, req.user.email, req.user.role)
-            return res.json({token})
+            const data = await authService.check(req.user.id, req.user.email)
+            // data = {accessToken, refreshToken}
+            return res.send( data )
         } catch (e) {
             next(e)
         }

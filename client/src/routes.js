@@ -1,21 +1,34 @@
-import {ADMIN_ROUTE, BASKET_ROUTE, DEVICE_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from "./utils/consts";
-import Shop from "./pages/Shop";
+import {
+    ADMIN_ROUTE,
+    BASKET_ROUTE, COLLECTION_PAGE_ROUTE,
+    DEVICE_ROUTE,
+    LOGIN_ROUTE,
+    MAIN_ROUTE,
+    REGISTRATION_ROUTE,
+    SHOP_ROUTE, USER_ROUTE
+} from "./utils/consts";
 import Auth from "./pages/Auth";
 import DevicePage from "./pages/DevicePage";
 import Admin from "./pages/Admin";
+import Main from "./pages/Main";
+import UserPage from "./pages/UserPage";
+import CollectionPage from "./pages/CollectionPage";
 
 export const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: <Admin/>,
+    },
+    {
+        path: USER_ROUTE,
+        Component: <UserPage/>
     }
-
 ]
 
 export const publicRoutes = [
     {
-        path: SHOP_ROUTE,
-        Component: <Shop/>,
+        path: MAIN_ROUTE,
+        Component: <Main/>,
     },
     {
         path: LOGIN_ROUTE,
@@ -26,7 +39,7 @@ export const publicRoutes = [
         Component: <Auth/>,
     },
     {
-        path: DEVICE_ROUTE + '/:id',
-        Component: <DevicePage/>,
+        path: COLLECTION_PAGE_ROUTE + '/:id',
+        Component: <CollectionPage/>
     },
 ]
