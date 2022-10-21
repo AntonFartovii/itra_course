@@ -1,4 +1,7 @@
+
+import {CollectionModel} from "../models/models.js";
 import {ItemModel as itemModel} from "../models/models.js";
+import {UserModel} from "../models/models.js";
 
 class ItemService {
 
@@ -7,15 +10,17 @@ class ItemService {
         return item
     }
 
-    async getItems ( userId = null, collectionId =  null, limit = 10 ) {
+    async getItems ( filter, sort, limit = 10 ) {
+        const collectionId = filter.collectionId
+        let where = {}
 
-        console.log(userId, collectionId, limit)
-        const items = async (collectionId, limit) => {
-            if ( !collectionId ) return await itemModel.findAndCountAll({limit})
-            return await itemModel.findAndCountAll({where: {collectionId}, limit})
-        }
+        let query = {limit, include: [CollectionModel, UserModel]}
+        if (sort) query = {...query, order: [[sort, 'DESC']]}
+        if (collectionId) where = {collectionId}
+        if (where) query = {...query, where: where }
+        console.log(query)
+        return await itemModel.findAndCountAll( query )
 
-        return items( collectionId, limit )
     }
 
     async getItem ( id ) {

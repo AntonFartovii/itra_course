@@ -28,7 +28,7 @@ const UserPage = () => {
                 Create collection
             </Button>
 
-            <CollectionList/>
+            <CollectionList collections = {collection.collections} title={`Collections of user ` + user.user.email}/>
 
             <CreateCollection
                 show={collectionVisible}

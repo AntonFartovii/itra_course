@@ -9,26 +9,24 @@ import {useContext, useEffect, useState} from "react";
 import {check, fetchUser} from "./http/userAPI";
 import {Spinner} from "react-bootstrap";
 import {Context} from "./index";
+import {observer} from "mobx-react-lite";
 
-function App() {
+const App = observer( () => {
     const {user} = useContext(Context)
-    console.log('user.isAuth: ', user.isAuth)
-    console.log('user.user: ', user)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         check().then(data => {
             user.setUser(data)
             user.setIsAuth(true)
+            if ( data.role === 'ADMIN') user.setIsAdmin(true);
         }).finally(() => setLoading(false))
 
     }, [])
 
-    if (loading) {
-        return <Spinner animation={"grow"}/>
-    }
+    if (loading) return <Spinner animation={"grow"}/>;
 
-  return (
+    return (
       <div className="App">
            <BrowserRouter>
               <NavBar/>
@@ -36,7 +34,7 @@ function App() {
           </BrowserRouter>
       </div>
 
-  );
-}
+    );
+})
 
 export default App;

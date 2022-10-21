@@ -2,19 +2,21 @@ import {UserModel as userModel} from "../models/models.js";
 import {RoleModel as roleModel} from "../models/models.js";
 import {UserRoles as userRoles} from "../models/models.js";
 import {RoleModel} from "../models/models.js";
+import {ApiError} from "../error/ApiError.js";
 
 class UserService {
 
     async getAllUsers() {
-        const users = await userModel.findAll({include: [RoleModel]})
-        return users
+        return await userModel.findAll({
+            attributes: {exclude: ['password']}
+        })
     }
 
     async getUserById( id ) {
-
-        const userData = await userModel.findOne({where: {id}, include: [RoleModel]})
-        let {password, ...data} = userData.dataValues
-        return data
+        return await userModel.findOne({
+            where: {id},
+            attributes: {exclude: ['password']}
+        })
     }
 
     async role( id, value ) {
@@ -35,8 +37,18 @@ class UserService {
         return await user.addRole( role )
     }
 
+    async switchAdminRole(id) {
+        const user = await this.getUserById( id )
+        if (!user) throw new ApiError.badRequest('Cat not delete user, user does not exist');
+        user.role === 'ADMIN'
+        ? user.role = 'USER'
+        : user.role = 'ADMIN'
+
+        return await user.save()
+    }
+
     async ban( id ) {
-        const user = await userModel.findOne({where: {id}})
+        const user = await this.getUserById(id)
         if ( !user ) throw new Error('')
         user.banned = !user.banned ? true : false
         await user.save()
@@ -44,8 +56,8 @@ class UserService {
     }
 
     async delete( id ) {
-        const user = await userModel.findByPk( id )
-        if (!user) throw new Error('Cat not delete user, user does not exist');
+        const user = await this.getUserById(id)
+        if (!user) throw new ApiError.badRequest('Cat not delete user, user does not exist');
         const userData = await userModel.destroy({where: {id}})
         return userData
     }

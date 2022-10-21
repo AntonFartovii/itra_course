@@ -6,9 +6,9 @@ export const createItem = async (item) => {
     return data
 }
 
-export const fetchItems = async (userId, collectionId, limit) => {
+export const fetchItems = async (userId, collectionId, limit, sort = "") => {
     const {data} = await $host.get('api/item/', {params: {
-            userId, collectionId, limit
+            userId, collectionId, limit, sort
         }})
     // console.log( 'items: ', data )
     return data

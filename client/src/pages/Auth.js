@@ -21,14 +21,13 @@ const Auth = () => {
         try {
             let data
             if (isLogin) {
-
                 data = await login(email, password)
-                console.log(data);
             } else {
                 data = await registration(email, password)
             }
             user.setUser(data)
             user.setIsAuth(true)
+            if ( data.role === 'ADMIN') user.setIsAdmin(true);
             navigate(MAIN_ROUTE)
         } catch (e) {
             alert(e.response.data.message)

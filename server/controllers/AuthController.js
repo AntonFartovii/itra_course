@@ -43,7 +43,7 @@ export class AuthController {
 
     async check(req, res, next) {
         try {
-            const data = await authService.check(req.user.id, req.user.email)
+            const data = await authService.check(req.user.id, req.user.email, req.user.role)
             // data = {accessToken, refreshToken}
             return res.send( data )
         } catch (e) {

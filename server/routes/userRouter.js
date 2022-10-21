@@ -8,6 +8,7 @@ router.get('/', await authMiddleware, await userController.getUsers)
 router.get('/:id', await userController.getUser)
 router.post('/role', await userController.addRole)
 router.post('/ban', await userController.addBan)
+router.post('/admin', await userController.switchAdminRole)
 router.delete('/:id', await userController.delete)
 
 export {router as userRouter}

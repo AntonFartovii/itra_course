@@ -23,8 +23,28 @@ export const check = async () => {
     return fetchUser( userData.id )
 }
 
+export const deleteUser = async (id) => {
+    const {data} = await $authHost.delete('api/user/' + id)
+    return data
+}
+
+export const switchAdminRole = async (id) => {
+    const {data} = await $authHost.post('api/user/admin', {id})
+    return data
+}
+
+export const banUser = async (id) => {
+    const {data} = await $authHost.post('api/user/ban', {id})
+    return data
+}
+
 export const fetchUser = async ( id ) => {
     const {data} = await $authHost.get('api/user/' + id)
     // console.log( data )
+    return data
+}
+
+export const fetchUsers = async () => {
+    const {data} = await $authHost.get('api/user/')
     return data
 }

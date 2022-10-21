@@ -1,5 +1,7 @@
 import {CollectionModel as collectionModel} from "../models/models.js";
-import {ItemModel as itemModel} from "../models/models.js";
+import {ItemModel} from "../models/models.js";
+import {Sequelize} from "sequelize";
+import {sequelize} from '../db.js'
 
 class CollectionService {
 
@@ -11,8 +13,25 @@ class CollectionService {
     async getAllCollections ( userId, limit ) {
 
         const collections = async (userId, limit) => {
-            if ( !userId ) return await collectionModel.findAndCountAll({limit})
-            return await collectionModel.findAndCountAll({where: {userId}, limit})
+            let query = {
+                limit,
+                attributes: {
+                    include: [
+                        [
+                            sequelize.literal(
+                                `(SELECT COUNT(*) FROM items AS item WHERE "collectionId" = collection.id)`),
+                                'count',
+                        ],
+                    ],
+                },
+                order: [
+                    [sequelize.literal('count'), 'DESC']
+                ],
+            }
+            if ( userId ) query = {...query, where: {userId}}
+
+            // console.log( query )
+            return await collectionModel.findAndCountAll(query)
         }
 
         return collections(userId, limit)

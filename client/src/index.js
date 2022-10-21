@@ -5,6 +5,7 @@ import UserStore from "./store/UserStore";
 import ItemStore from "./store/ItemStore";
 import {CollectionStore} from "./store/CollectionStore";
 import {TagStore} from "./store/TagStore";
+import {AdminStore} from "./store/AdminStore";
 
 export const Context = createContext(null)
 
@@ -12,6 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
             <Context.Provider value={{
                 user: new UserStore(),
+                admin: new AdminStore(),
                 item: new ItemStore(),
                 collection: new CollectionStore(),
                 tag: new TagStore()

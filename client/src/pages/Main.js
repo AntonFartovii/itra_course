@@ -14,7 +14,7 @@ const Main = observer(() => {
     const {collection} = useContext(Context)
 
     useEffect( () => {
-        fetchItems(null,null,5).then( data => {
+        fetchItems(null,null,10, 'createdAt').then( data => {
             item.setItems(data.rows)
         })
     },[])
@@ -24,13 +24,12 @@ const Main = observer(() => {
             collection.setCollections(data.rows)
             collection.setTotalCount(data.count)
         })
-    }, [])
+    }, [user.auth])
 
     return (
         <Container>
-
-            <ItemList title="List items 1"/>
-            <CollectionList title="Collection list"/>
+            <ItemList items = {item.items} title="List last items"/>
+            <CollectionList collections = {collection.collections} title="Biggest collection list"/>
         </Container>
     );
 });

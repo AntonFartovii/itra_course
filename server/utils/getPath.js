@@ -7,7 +7,7 @@ export const getFilePath = (url, filename) => {
     const __filename = fileURLToPath(url)
     const __dirname = dirname(__filename)
     const filePath = join(__dirname, filename)
-    console.log( 'filePath: ', filePath )
+    // console.log( 'filePath: ', filePath )
     return filePath
 }
 
@@ -15,6 +15,6 @@ export const getFilePath = (url, filename) => {
 export const getDirname = ( url ) => {
     const __filename = fileURLToPath(url)
     const __dirname = dirname(__filename)
-    console.log( '__dirname: ', __dirname )
+    // console.log( '__dirname: ', __dirname )
     return __dirname
 }

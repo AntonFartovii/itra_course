@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Context} from "../index";
 import {Container, Button, Row, Col, Form, FloatingLabel} from "react-bootstrap";
 import ItemList from "../components/ItemList";
@@ -11,52 +11,50 @@ import {useItems} from "../components/hooks/useItems";
 import {useFetching} from "../components/hooks/useFetching";
 
 const CollectionPage = () => {
-    const [selectedSort, setSelectedSort] = useState('')
+    const [items, setItems] = useState([])
+    const [filter, setFilter] = useState({sort: '', query: ''})
+
     const [addVisible, setAddVisible] = useState()
     const [collection, setCollection] = useState({})
-    const {item} = useContext(Context)
     const {id} = useParams()
 
+    const [fetchData, isItemsLoading, itemError] = useFetching(async () => {
+        const data = await fetchItems(null, id)
+        setItems(data.rows)
+    })
 
     useEffect(() => {
         fetchOneCollection(id).then(data => setCollection(data))
     }, [])
 
-    useEffect(() => {
-        fetchItems(null, id, 10).then(data =>
-            item.setItems(data.rows)
-        )
-    }, [])
+    useEffect( () => {
 
-    const sortItems = (sort) => {
-        console.log( sort )
-    }
+        fetchData()
+    }, [filter])
+
+
+    const sortedAndSearchedItems = useItems(items, filter.sort, filter.query)
 
     return (
         <Container>
             <hr style={{margin: '15px 0'}}/>
 
-            <FloatingLabel controlId="floatingSelect" label="Sorting">
-                <Form.Select
-                    value={selectedSort}
-                    aria-label="Select option please"
-                    onChange={sortItems}
-                >
-                    <option>Open this select menu</option>
-                    <option value="name">По названию</option>
-                </Form.Select>
-            </FloatingLabel>
-
-            <Button
-                variant="primary"
-                onClick={() => setAddVisible(true)}
-            >
+            <Button variant="primary" onClick={() => setAddVisible(true)}>
                 Create item
             </Button>
 
             <h1>{id}. {collection.name}</h1>
+            <ItemFilter filter={filter} setFilter={setFilter}></ItemFilter>
+            {
+                itemError && <h1>Произошла ошибка</h1>
+            }
+            {
+                isItemsLoading
+                ?   <h2>Loading...</h2>
+                :   <ItemList items={sortedAndSearchedItems}></ItemList>
+            }
 
-            <ItemList item={item}></ItemList>
+
 
             <CreateItem
                 collectionId={id}

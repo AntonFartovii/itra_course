@@ -5,6 +5,7 @@ export const UserModel = sequelize.define('user', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     email:          {type: DataTypes.STRING,  unique: true},
     password:       {type: DataTypes.STRING,  defaultValue: ""},
+    role:           {type: DataTypes.STRING},
     isActivated:    {type: DataTypes.BOOLEAN, defaultValue: false},
     activationLink: {type: DataTypes.STRING,  defaultValue: ""},
     banned:         {type: DataTypes.BOOLEAN, defaultValue: false}
@@ -54,13 +55,16 @@ export const UserRoles = sequelize.define('user_role', {
 UserModel.hasMany(CollectionModel)
 CollectionModel.belongsTo(UserModel)
 
+UserModel.hasMany(ItemModel)
+ItemModel.belongsTo(UserModel)
+
 UserModel.hasOne(TokenModel)
 TokenModel.belongsTo(UserModel)
 
 UserModel.hasMany(CommentModel)
 CommentModel.belongsTo(UserModel)
 
-CollectionModel.hasMany(ItemModel)
+CollectionModel.hasMany(ItemModel, {as: 'items'})
 ItemModel.belongsTo(CollectionModel)
 
 ItemModel.hasMany(CommentModel)

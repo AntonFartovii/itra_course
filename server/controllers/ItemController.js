@@ -5,8 +5,8 @@ class ItemController {
 
     async createItem (req, res, next) {
         try {
-            const {name, collectionId} = req.body
-            const data = await itemService.createItem( {name, collectionId}  )
+            const {name, collectionId, userId} = req.body
+            const data = await itemService.createItem( {name, collectionId, userId}  )
             return res.send( data )
         } catch (e) {
             next(e)
@@ -15,8 +15,9 @@ class ItemController {
 
     async getItems (req, res, next) {
         try {
-            let {userId, collectionId, limit} = req.query
-            const data = await itemService.getItems(userId, collectionId, limit)
+            let {userId, collectionId, sort, limit} = req.query
+            const filter = {userId, collectionId}
+            const data = await itemService.getItems( filter, sort, limit)
             return res.send( data )
         } catch (e) {
             next(e)

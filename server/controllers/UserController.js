@@ -32,6 +32,16 @@ class UserController {
 
     }
 
+    async switchAdminRole(req, res, next) {
+        try {
+            const {id} = req.body
+            const userData = await userService.switchAdminRole(id)
+            return res.send( userData )
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async addBan(req, res, next) {
         try {
             const {id} = req.body

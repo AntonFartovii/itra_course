@@ -46,8 +46,8 @@ class AuthService {
         return token
     }
 
-    async check(id, email) {
-        const {accessToken, refreshToken} = await tokenService.generateTokens(id, email)
+    async check(id, email, role) {
+        const {accessToken, refreshToken} = await tokenService.generateTokens(id, email, role)
         return {accessToken, refreshToken}
     }
 
@@ -84,7 +84,8 @@ class AuthService {
 }
 
 async function createTokens( user ) {
-    const {accessToken, refreshToken} = await tokenService.generateTokens(user.id, user.email)
+
+    const {accessToken, refreshToken} = await tokenService.generateTokens(user.id, user.email, user.role)
     await tokenService.saveToken(user.id, refreshToken)
     return {accessToken, refreshToken}
 }
