@@ -1,7 +1,7 @@
 import {Router} from 'express'
 
 const router = new Router()
-import {commentController} from '../controllers/commentController.js'
+import {commentController} from '../controllers/CommentController.js'
 import {body} from "express-validator";
 
 

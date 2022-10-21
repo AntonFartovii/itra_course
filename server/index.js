@@ -16,7 +16,7 @@ import {getDirname} from "./utils/getPath.js";
 
 
 
-const PORT = process.env.PORT || 5001
+const PORT = Number(process.env.PORT) || 5001
 const app = express()
 const dirname = getDirname(  import.meta.url )
 
