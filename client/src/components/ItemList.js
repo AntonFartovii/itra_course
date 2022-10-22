@@ -4,7 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {Table} from "react-bootstrap";
 
-const ItemList = observer(({items,title}) => {
+const ItemList = observer(({items = [],title}) => {
     // const {item} = useContext(Context)
     if ( !items.length ) {
         return (
@@ -21,6 +21,7 @@ const ItemList = observer(({items,title}) => {
                         <th>Name</th>
                         <th>Collection name</th>
                         <th>Author</th>
+                        <th>Toolbar</th>
                     </tr>
                 </thead>
                 <tbody>

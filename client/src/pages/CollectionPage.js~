@@ -28,6 +28,7 @@ const CollectionPage = () => {
     }, [])
 
     useEffect( () => {
+
         fetchData()
     }, [filter])
 

@@ -24,6 +24,17 @@ class CollectionController {
         }
     }
 
+    async getAll (req, res, next) {
+        try {
+            let {userId, limit} = req.query
+            limit = limit || 5
+            const data = await collectionService.getAll(userId, limit)
+            return res.send( data )
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async getCollection (req, res, next) {
         try {
             const id = req.params.id

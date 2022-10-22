@@ -14,7 +14,7 @@ const Admin = observer (() => {
             setUsers(data)
         })
 
-    }, [users])
+    }, [])
 
     return (<Container>
                 {

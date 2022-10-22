@@ -1,42 +1,46 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../index";
+import {useParams} from 'react-router-dom'
+import UserPageContent from "../components/UserPageContent";
+import {fetchUser} from "../http/userAPI";
+import UserCurrent from "../components/UserCurrent";
+import {Button, Container} from "react-bootstrap";
+import {observer} from "mobx-react-lite";
+import {fetchCollections} from "../http/collectionAPI";
 import CollectionList from "../components/CollectionList";
-import {createCollection, fetchCollections} from "../http/collectionAPI";
-import {Container, Button, Row, Col} from "react-bootstrap";
-import CreateCollection from "../components/modals/CreateCollection";
+import data from "bootstrap/js/src/dom/data";
 
 const UserPage = () => {
-    const [collectionVisible, setCollectionVisible] = useState(false)
+    const [selectedAuthorId, setSelectedAuthorId] = useState('')
+    const [author, setAuthor] = useState({})
+    const [collections, setCollections] = useState([])
     const {user} = useContext(Context)
-    const {collection} = useContext(Context)
-    const userId = user.user.id
+    const {id} = useParams()
+    const userId = id ? id : user.user.id
+
+
+
+
+    useEffect(() => {
+        fetchUser(userId).then(data => setAuthor(data))
+
+    }, [])
 
     useEffect( () => {
-        fetchCollections(userId,5).then( data => {
-            collection.setCollections(data.rows)
-            collection.setTotalCount(data.count)
-            collection.refresh = false
-        })
-    }, [collection.refresh])
+        fetchCollections(userId, 10).then(data => setCollections(data.rows))
+    })
+
+    if (id & !user.isAdmin) {
+        return (<h1>У вас нет прав</h1>);
+    }
 
     return (
         <Container>
-            <Button
-                variant="primary"
-                onClick={() => setCollectionVisible(true)}
-            >
-                Create collection
-            </Button>
-
-            <CollectionList collections = {collection.collections} title={`Collections of user ` + user.user.email}/>
-
-            <CreateCollection
-                show={collectionVisible}
-                onHide={ () => setCollectionVisible(false)}
-                userId={userId}
-            />
+            <UserCurrent user={author}/>
+            <CollectionList collections={collections}/>
+            {/*<UserPageContent author={author}/>*/}
         </Container>
-    );
+    )
 };
 
 export default UserPage;

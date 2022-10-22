@@ -3,18 +3,20 @@ import {RoleModel as roleModel} from "../models/models.js";
 import {UserRoles as userRoles} from "../models/models.js";
 import {RoleModel} from "../models/models.js";
 import {ApiError} from "../error/ApiError.js";
+import {CollectionModel} from "../models/models.js";
 
 class UserService {
 
     async getAllUsers() {
         return await userModel.findAll({
-            attributes: {exclude: ['password']}
+            attributes: {exclude: ['password'], order: [['id', 'DESC']]}
         })
     }
 
     async getUserById( id ) {
         return await userModel.findOne({
             where: {id},
+            include: [CollectionModel],
             attributes: {exclude: ['password']}
         })
     }

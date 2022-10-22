@@ -1,17 +1,30 @@
 import React from 'react';
-import {Row, Col} from "react-bootstrap";
+import ItemBar from "./ItemBar";
+import NavLink from "react-bootstrap/NavLink";
+import {ITEM_ROUTE} from "../utils/consts";
+import {useNavigate} from 'react-router-dom'
 
 const Item = ( props ) => {
-    console.log( props)
+    const navigate = useNavigate()
+
     return (
                 <tr>
                     <td>{props.index || 'not data'}</td>
-                    <td>{props.item.name || 'not data'}</td>
                     <td>
-                        {/*{props.item.collection.name ? props.item.collection.name : 'not data'}*/}
+                        <NavLink onClick={()=> navigate(ITEM_ROUTE + '/' + props.item.id, { replace: true })}>
+                            {props.item.name}
+                        </NavLink>
+                        </td>
+                    <td>
+                        {props.item.collection ? props.item.collection.name : 'not data'}
                     </td>
                     <td>
-                        {/*{props.item.user.email ? props.item.user.email : 'not data'}*/}
+                        {props.item.user ? props.item.user.email : 'not data'}
+                    </td>
+                    <td>
+                        <ItemBar
+                            id={props.item.id}
+                        />
                     </td>
                 </tr>
     );

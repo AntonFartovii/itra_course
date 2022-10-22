@@ -1,4 +1,14 @@
 import {CommentModel} from "../models/models.js";
+import {UserModel} from "../models/models.js";
+
+function createQuery( dto ) {
+    const {userId, itemId, limit = 10} = dto
+    let query = {limit, include: [UserModel]}
+    let where = {}
+    if ( userId ) where = {...where, userId}
+    if ( itemId ) where = {...where, itemId}
+    return  {...query, where}
+}
 
 class CommentService {
     async create( dto ) {
@@ -6,9 +16,9 @@ class CommentService {
         return comment
     }
 
-    async getAll() {
-        const comments = await CommentModel.findAll()
-        return comments
+    async getAll( dto ) {
+        const query = createQuery( dto )
+        return await CommentModel.findAll( query )
     }
 
     async getOne( id ) {

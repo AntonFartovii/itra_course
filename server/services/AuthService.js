@@ -9,7 +9,7 @@ import {RoleModel} from "../models/models.js";
 
 class AuthService {
 
-    async registration(email, password, roles = ['USER']) {
+    async registration(email, password, role = 'USER', roles = ['USER']) {
 
         if (!email || !password) {
             throw ApiError.badRequest(`Un correct email ${email}`)
@@ -20,7 +20,7 @@ class AuthService {
         const hashPass = await bcrypt.hash(password, 5)
         const activationLink = uuid.v4()
 
-        const user = await UserModel.create({email, password: hashPass, activationLink})
+        const user = await UserModel.create({email, password: hashPass, role, activationLink})
         await addRole( user, roles )
         await sendMail( email, activationLink)
         return createTokens( user )

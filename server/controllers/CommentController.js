@@ -16,7 +16,8 @@ class CommentController {
 
     async getAll(req, res, next) {
         try {
-            const data = await commentService.getAll()
+            const {userId, itemId, limit} = req.query
+            const data = await commentService.getAll({userId, itemId, limit})
             return res.send( data )
         } catch (e) {
             next(e)

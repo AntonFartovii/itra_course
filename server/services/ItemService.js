@@ -2,6 +2,8 @@
 import {CollectionModel} from "../models/models.js";
 import {ItemModel as itemModel} from "../models/models.js";
 import {UserModel} from "../models/models.js";
+import {CommentModel} from "../models/models.js";
+import {LikeModel} from "../models/models.js";
 
 class ItemService {
 
@@ -14,18 +16,19 @@ class ItemService {
         const collectionId = filter.collectionId
         let where = {}
 
-        let query = {limit, include: [CollectionModel, UserModel]}
+        let query = {limit, include: [CollectionModel, UserModel, {model: LikeModel, as: 'likes'} ]}
         if (sort) query = {...query, order: [[sort, 'DESC']]}
         if (collectionId) where = {collectionId}
         if (where) query = {...query, where: where }
-        console.log(query)
         return await itemModel.findAndCountAll( query )
 
     }
 
     async getItem ( id ) {
-        const item = await itemModel.findByPk( id )
-        return item
+        return await itemModel.findOne({
+            where: {id},
+            include: [CommentModel, {model: LikeModel, as: 'likes'}]
+        })
     }
 
     async deleteItem ( id ) {

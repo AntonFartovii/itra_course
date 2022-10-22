@@ -118,7 +118,7 @@ const NavBar = observer(() => {
                                     variant="danger"
                                     className="ml-2 mx-2"
                                 >
-                                    Logout
+                                    Logout<br/>{user.user.email}
                                 </Button>
                             </Nav>
 

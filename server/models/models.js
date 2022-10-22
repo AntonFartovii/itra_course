@@ -34,6 +34,10 @@ export const ItemModel = sequelize.define('item', {
     like:           {type: DataTypes.INTEGER, defaultValue: 0}
 })
 
+export const LikeModel = sequelize.define('like', {
+    id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+
 export const TagModel = sequelize.define('tag', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:           {type: DataTypes.STRING}
@@ -69,6 +73,11 @@ ItemModel.belongsTo(CollectionModel)
 
 ItemModel.hasMany(CommentModel)
 CommentModel.belongsTo(ItemModel)
+
+UserModel.hasMany(LikeModel, {as: 'likes'})
+ItemModel.hasMany(LikeModel, {as: 'likes'})
+LikeModel.belongsTo(ItemModel)
+LikeModel.belongsTo(UserModel)
 
 
 UserModel.belongsToMany(RoleModel, {through: UserRoles})

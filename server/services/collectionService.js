@@ -1,6 +1,4 @@
 import {CollectionModel as collectionModel} from "../models/models.js";
-import {ItemModel} from "../models/models.js";
-import {Sequelize} from "sequelize";
 import {sequelize} from '../db.js'
 
 class CollectionService {
@@ -8,6 +6,12 @@ class CollectionService {
     async createCollection ( dto ) {
         const collection = await collectionModel.create( dto )
         return collection
+    }
+
+    async getAll ( userId, limit ) {
+        return await collectionModel.findAndCountAll({
+            where: userId
+        })
     }
 
     async getAllCollections ( userId, limit ) {
@@ -53,30 +57,6 @@ class CollectionService {
         const collection = await this.getCollection( dto.id )
     }
 
-    async createItem ( dto ) {
-        const item = await itemModel.create( dto )
-        return item
-    }
-
-    async getItems () {
-        const items = await itemModel.findAll()
-        return items
-    }
-
-    async getItem ( id ) {
-        const item = await itemModel.findByPk( id )
-        return item
-    }
-
-    async deleteItem ( id ) {
-        const item = await itemModel.findByPk( id )
-        if ( !item ) return new Error('')
-        return await item.destroy()
-    }
-
-    async updateItem ( dto ) {
-        const item = await itemModel.findByPk( dto.id )
-    }
 
 }
 

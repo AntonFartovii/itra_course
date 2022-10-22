@@ -4,7 +4,9 @@ import {Context} from "../index";
 import Collection from "./Collection";
 import {Table} from "react-bootstrap";
 
-const CollectionList = observer(({collections,title}) => {
+const CollectionList = ({collections,title}) => {
+
+
     title = title || 'Collections list'
     return (
         <div>
@@ -34,6 +36,6 @@ const CollectionList = observer(({collections,title}) => {
 
         </div>
     );
-});
+};
 
 export default CollectionList;

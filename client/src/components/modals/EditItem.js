@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Shop = () => {
+const EditItem = () => {
     return (
         <div>
-            Shop page
+
         </div>
     );
 };
 
-export default Shop;
+export default EditItem;

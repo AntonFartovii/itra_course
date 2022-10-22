@@ -1,24 +1,28 @@
 import {
     ADMIN_ROUTE,
-    BASKET_ROUTE, COLLECTION_PAGE_ROUTE,
-    DEVICE_ROUTE,
+    COLLECTION_PAGE_ROUTE, ITEM_ROUTE,
     LOGIN_ROUTE,
     MAIN_ROUTE,
     REGISTRATION_ROUTE,
-    SHOP_ROUTE, USER_ROUTE
+    USER_ROUTE
 } from "./utils/consts";
 import Auth from "./pages/Auth";
-import DevicePage from "./pages/DevicePage";
 import Admin from "./pages/Admin";
 import Main from "./pages/Main";
 import UserPage from "./pages/UserPage";
 import CollectionPage from "./pages/CollectionPage";
+import ItemPage from "./pages/ItemPage";
 
 export const authRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: <Admin/>,
     },
+    {
+        path: ADMIN_ROUTE + '/user/:id',
+        Component: <UserPage/>,
+    },
+
     {
         path: USER_ROUTE,
         Component: <UserPage/>
@@ -42,4 +46,8 @@ export const publicRoutes = [
         path: COLLECTION_PAGE_ROUTE + '/:id',
         Component: <CollectionPage/>
     },
+    {
+        path: ITEM_ROUTE + '/:id',
+        Component: <ItemPage/>
+    }
 ]
