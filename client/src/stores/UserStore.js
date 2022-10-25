@@ -4,12 +4,17 @@ export default class UserStore {
     constructor() {
         this._isAuth = false
         this._isAdmin = false
+        this._isBan = false
         this._user = {}
         makeAutoObservable( this )
     }
 
     setIsAuth(bool) {
         this._isAuth = bool
+    }
+
+    setIsBan(bool) {
+        this._isBan = bool
     }
 
     setIsAdmin(bool) {
@@ -22,6 +27,10 @@ export default class UserStore {
 
     get isAuth() {
         return this._isAuth
+    }
+
+    get isBan() {
+        return this._isBan
     }
 
     get isAdmin() {

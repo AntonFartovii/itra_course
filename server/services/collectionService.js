@@ -1,5 +1,6 @@
 import {CollectionModel as collectionModel} from "../models/models.js";
 import {sequelize} from '../db.js'
+import {PropModel} from "../models/models.js";
 
 class CollectionService {
 
@@ -37,12 +38,14 @@ class CollectionService {
             // console.log( query )
             return await collectionModel.findAndCountAll(query)
         }
-
         return collections(userId, limit)
     }
 
     async getCollection ( id ) {
-        const collection = await collectionModel.findByPk( id )
+        const collection = await collectionModel.findOne({
+            where: {id},
+            include: {model: PropModel, as: 'props'}
+        })
 
         return collection
     }
@@ -54,9 +57,13 @@ class CollectionService {
     }
 
     async updateCollection ( dto ) {
-        const collection = await this.getCollection( dto.id )
+        const {id, name, theme, description} = dto
+        const collection = await this.getCollection( id )
+        if (name) collection.name = name
+        if (theme) collection.theme = theme
+        if (description) collection.description = description
+        return await collection.save()
     }
-
 
 }
 

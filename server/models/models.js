@@ -25,6 +25,7 @@ export const RoleModel = sequelize.define('role', {
 export const CollectionModel = sequelize.define('collection', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:           {type: DataTypes.STRING},
+    description:    {type: DataTypes.TEXT},
     theme:          {type: DataTypes.STRING}
 })
 
@@ -38,6 +39,11 @@ export const LikeModel = sequelize.define('like', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
 
+export const PropModel = sequelize.define('prop', {
+    id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name:           {type: DataTypes.STRING}
+})
+
 export const TagModel = sequelize.define('tag', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:           {type: DataTypes.STRING}
@@ -48,11 +54,15 @@ export const CommentModel = sequelize.define('comment', {
     value:          {type: DataTypes.TEXT}
 })
 
-export const TagItem = sequelize.define('tag_item', {
+export const TagItems = sequelize.define('tag_item', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
 
 export const UserRoles = sequelize.define('user_role', {
+    id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+
+export const ItemProps = sequelize.define('item_prop', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
 })
 
@@ -71,6 +81,9 @@ CommentModel.belongsTo(UserModel)
 CollectionModel.hasMany(ItemModel, {as: 'items'})
 ItemModel.belongsTo(CollectionModel)
 
+CollectionModel.hasMany(PropModel, {as: 'props'})
+PropModel.belongsTo(CollectionModel)
+
 ItemModel.hasMany(CommentModel)
 CommentModel.belongsTo(ItemModel)
 
@@ -83,15 +96,18 @@ LikeModel.belongsTo(UserModel)
 UserModel.belongsToMany(RoleModel, {through: UserRoles})
 RoleModel.belongsToMany(UserModel, {through: UserRoles})
 
-TagModel.belongsToMany(ItemModel, {through: TagItem})
-ItemModel.belongsToMany(TagModel, {through: TagItem})
+ItemModel.belongsToMany(TagModel, {through: TagItems, as: 'tags', foreignKey: 'itemId'})
+TagModel.belongsToMany(ItemModel, {through: TagItems, as: 'items', foreignKey: 'tagId'})
+
+PropModel.belongsToMany(ItemModel, {through: ItemProps})
+ItemModel.belongsToMany(TagModel, {through: ItemProps})
 
 // await UserModel.sync();
 // await RoleModel.sync();
 // await UserRoles.sync();
 //
-// await TagModel.sync;
+// await TagModel.sync();
 // await ItemModel.sync();
-// await TagItem.sync();
+// await TagItems.sync();
 
 sequelize.sync()

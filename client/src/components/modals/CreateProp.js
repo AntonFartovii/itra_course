@@ -1,19 +1,18 @@
 import React, {useContext, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
-import {createCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
-import {createItem} from "../../http/itemAPI";
+import {createProp} from "../../http/propAPI";
 
-const CreateItem = ({show, onHide, collectionId, userId}) => {
-    const [value, setValue] = useState('')
-    const {item} = useContext(Context)
+const CreateProp = ({show, onHide, collectionId}) => {
+    const [name, setName] = useState('')
+    const {collection} = useContext(Context)
 
-    const add = () => {
-        createItem({name: value, collectionId, userId}).then( data => {
-            setValue('')
+    const click = () => {
+        createProp({name, collectionId}).then( data => {
+            setName('')
             onHide()
-            item.setRefresh(true)
+            collection.setRefresh(true)
         })
     }
 
@@ -25,15 +24,15 @@ const CreateItem = ({show, onHide, collectionId, userId}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Add item
+                    Add prop to collection ID: {collectionId}
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <Form>
                     <Form.Control
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={name}
+                        onChange={e => setName(e.target.value)}
                         placeholder={"Enter name"}
                     />
                 </Form>
@@ -48,13 +47,13 @@ const CreateItem = ({show, onHide, collectionId, userId}) => {
                 </Button>
                 <Button
                     variant="outline-success"
-                    onClick={add}
+                    onClick={click}
                 >
-                    Add
+                    Done
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default CreateItem;
+export default CreateProp;

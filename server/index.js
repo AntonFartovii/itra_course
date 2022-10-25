@@ -14,6 +14,7 @@ import {tagRouter} from "./routes/tagRouter.js";
 import {commentRouter} from "./routes/commentRouter.js";
 import {itemRouter} from "./routes/itemRouter.js";
 import {likeRouter} from "./routes/likeRouter.js";
+import {propRouter} from "./routes/propRouter.js";
 
 const PORT = Number(process.env.PORT) || 5001
 const app = express()
@@ -31,6 +32,7 @@ app.use('/api/item', itemRouter)
 app.use('/api/tag', tagRouter)
 app.use('/api/comment', commentRouter)
 app.use('/api/like', likeRouter)
+app.use('/api/prop', propRouter)
 app.use(errorMiddleware)
 
 const start = async () => {

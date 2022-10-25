@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button} from "react-bootstrap";
 import {deleteUser} from "../../http/userAPI";
 import {deleteItem} from "../../http/itemAPI";
+import {Context} from "../../index";
 
 const DeleteItem = ({show, onHide, id}) => {
-
+    const {item} = useContext(Context)
     const click = () => {
         deleteItem( id ).then( data => {
+            item.setRefresh(true)
             onHide()
         })
     }

@@ -4,7 +4,7 @@ import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar";
 import {useContext, useEffect, useState} from "react";
 import {check, fetchUser} from "./http/userAPI";
-import {Spinner} from "react-bootstrap";
+import {Spinner, ThemeProvider} from "react-bootstrap";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
 
@@ -18,19 +18,24 @@ const App = observer( () => {
             user.setUser(data)
             user.setIsAuth(true)
             if ( data.role === 'ADMIN') user.setIsAdmin(true);
+            user.setIsBan( data.banned )
         }).finally(() => setLoading(false))
-
     }, [])
 
     if (loading) return <Spinner animation={"grow"}/>;
 
     return (
-      <div className="App">
-           <BrowserRouter>
-              <NavBar/>
-              <AppRouter/>
-          </BrowserRouter>
-      </div>
+        <ThemeProvider
+            breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+            minBreakpoint="xxs"
+        >
+            <div className="App">
+                <BrowserRouter>
+                    <NavBar/>
+                    <AppRouter/>
+                </BrowserRouter>
+            </div>
+        </ThemeProvider>
 
     );
 })

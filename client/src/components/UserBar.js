@@ -8,6 +8,7 @@ const UserBar = ({id}) => {
     const [deleteVisible, setDeleteVisible] = useState(false)
     const [adminVisible, setAdminVisible] = useState(false)
     const [banVisible, setBanVisible] = useState(false)
+
     return (
         <div>
             <Button className="ml-2 mx-2" variant="secondary" onClick={() => setBanVisible(true)}>

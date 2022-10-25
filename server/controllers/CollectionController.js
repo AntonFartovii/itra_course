@@ -5,8 +5,8 @@ class CollectionController {
 
     async createCollection (req, res, next) {
         try {
-            const {name, theme, userId} = req.body
-            const data = await collectionService.createCollection( {name, theme, userId} )
+            const {name, theme, userId, description} = req.body
+            const data = await collectionService.createCollection( {name, theme, userId, description} )
             return res.send( data )
         } catch (e) {
             next(e)
@@ -57,8 +57,8 @@ class CollectionController {
 
     async updateCollection (req, res, next) {
         try {
-            const {id, name}= req.body
-            const data = await collectionService.updateCollection( {id, name} )
+            const {id, name, theme, description}= req.body
+            const data = await collectionService.updateCollection( {id, name, theme, description} )
             return res.send( data )
         } catch (e) {
             next(e)

@@ -1,19 +1,16 @@
 import React, {useContext, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
-import {createCollection} from "../../http/collectionAPI";
+import {editCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
-import {createItem} from "../../http/itemAPI";
+import CollectionForm from "../forms/CollectionForm";
 
-const CreateItem = ({show, onHide, collectionId, userId}) => {
-    const [value, setValue] = useState('')
-    const {item} = useContext(Context)
+const EditCollection = ({show, onHide, id, collection, setCollection}) => {
 
-    const add = () => {
-        createItem({name: value, collectionId, userId}).then( data => {
-            setValue('')
+    const click = () => {
+
+        editCollection(collection).then( data => {
             onHide()
-            item.setRefresh(true)
         })
     }
 
@@ -25,18 +22,12 @@ const CreateItem = ({show, onHide, collectionId, userId}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Add item
+                    Are you sure
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
-                <Form>
-                    <Form.Control
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder={"Enter name"}
-                    />
-                </Form>
+                <CollectionForm collection={collection} setCollection={setCollection}/>
             </Modal.Body>
 
             <Modal.Footer>
@@ -48,13 +39,13 @@ const CreateItem = ({show, onHide, collectionId, userId}) => {
                 </Button>
                 <Button
                     variant="outline-success"
-                    onClick={add}
+                    onClick={click}
                 >
-                    Add
+                    Edit
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default CreateItem;
+export default EditCollection;

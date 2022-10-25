@@ -4,13 +4,18 @@ import {ItemModel as itemModel} from "../models/models.js";
 import {UserModel} from "../models/models.js";
 import {CommentModel} from "../models/models.js";
 import {LikeModel} from "../models/models.js";
+import {ApiError} from "../error/ApiError.js";
+import {TagItems} from "../models/models.js";
+import {TagModel} from "../models/models.js";
 
 class ItemService {
 
     async createItem ( dto ) {
         const item = await itemModel.create( dto )
+        // const itemTag = TagItems.create({itemId: 47, tagId: 4})
         return item
     }
+
 
     async getItems ( filter, sort, limit = 10 ) {
         const collectionId = filter.collectionId
@@ -25,10 +30,19 @@ class ItemService {
     }
 
     async getItem ( id ) {
-        return await itemModel.findOne({
+        const item = await itemModel.findOne({
             where: {id},
-            include: [CommentModel, {model: LikeModel, as: 'likes'}]
+            include:[
+                // CommentModel,
+                {model: TagModel, as: 'tags'}
+                // {model: LikeModel, as: 'likes'}
+            ]
+
         })
+        if (!item) throw ApiError.badRequest(
+            `Item id: ${id} do not exist`,
+            `Item id - ${id} do not exist`)
+        return item
     }
 
     async deleteItem ( id ) {

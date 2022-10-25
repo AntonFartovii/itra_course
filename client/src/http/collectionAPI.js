@@ -24,3 +24,9 @@ export const deleteCollection = async (id) => {
     const {data} = await $authHost.delete('api/collection/' + id)
     return data
 }
+
+export const editCollection = async (collection) => {
+    const {data} = await $authHost.put('api/collection/', collection)
+    console.log(collection)
+    return data
+}

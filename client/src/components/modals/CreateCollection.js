@@ -3,16 +3,17 @@ import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
 import {createCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
+import CollectionForm from "../forms/CollectionForm";
 
 const CreateCollection = ({show, onHide, userId}) => {
-    const [value, setValue] = useState('')
-    const {collection} = useContext(Context)
+
+    const [collection, setCollection] = useState({
+        name: '', theme: '', description: ''
+    })
 
     const addCollection = () => {
-        createCollection({name: value, userId}).then( data => {
-            setValue('')
+        createCollection({...collection, userId}).then( data => {
             onHide()
-            collection.refresh = true
         })
     }
 
@@ -29,13 +30,7 @@ const CreateCollection = ({show, onHide, userId}) => {
             </Modal.Header>
 
             <Modal.Body>
-                <Form>
-                    <Form.Control
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder={"Enter name"}
-                    />
-                </Form>
+                <CollectionForm collection={collection} setCollection={setCollection}/>
             </Modal.Body>
 
             <Modal.Footer>

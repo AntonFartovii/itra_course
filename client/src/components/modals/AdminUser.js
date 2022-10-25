@@ -2,11 +2,19 @@ import React, {useContext, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
 import {switchAdminRole} from "../../http/userAPI";
+import {Context} from "../../index";
 
 const AdminUser = ({show, onHide, id}) => {
+    const {user} = useContext(Context)
 
     const click = () => {
         switchAdminRole( id ).then( data => {
+            if ( user.user.id === data.id ) {
+                data.role === 'ADMIN'
+                    ? user.setIsAdmin(true)
+                    : user.setIsAdmin(false)
+            }
+
             onHide()
         })
     }

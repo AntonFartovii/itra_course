@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ItemBar from "./ItemBar";
 import NavLink from "react-bootstrap/NavLink";
 import {ITEM_ROUTE} from "../utils/consts";
 import {useNavigate} from 'react-router-dom'
+import {Context} from "../index";
 
 const Item = ( props ) => {
+    const {user} = useContext(Context)
     const navigate = useNavigate()
 
     return (
                 <tr>
                     <td>{props.index || 'not data'}</td>
+                    <td>{props.item.createdAt}</td>
                     <td>
                         <NavLink onClick={()=> navigate(ITEM_ROUTE + '/' + props.item.id, { replace: true })}>
                             {props.item.name}
@@ -22,9 +25,7 @@ const Item = ( props ) => {
                         {props.item.user ? props.item.user.email : 'not data'}
                     </td>
                     <td>
-                        <ItemBar
-                            id={props.item.id}
-                        />
+                        {user.isAdmin && <ItemBar id={props.item.id}/>}
                     </td>
                 </tr>
     );

@@ -14,11 +14,11 @@ const Admin = observer (() => {
             setUsers(data)
         })
 
-    }, [])
+    }, [users])
 
     return (<Container>
                 {
-                    !user.isAdmin
+                    (!user.isAdmin || user.isBan)
                         ?   (<h1>У вас нет прав администратора</h1>)
                         :   (<div>
                             <UserList

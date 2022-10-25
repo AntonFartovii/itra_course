@@ -10,25 +10,22 @@ import {fetchCollections} from "../http/collectionAPI";
 import CollectionList from "../components/CollectionList";
 import data from "bootstrap/js/src/dom/data";
 
-const UserPage = () => {
-    const [selectedAuthorId, setSelectedAuthorId] = useState('')
+const UserPage = observer(() => {
     const [author, setAuthor] = useState({})
-    const [collections, setCollections] = useState([])
-    const {user} = useContext(Context)
+    // const [collections, setCollections] = useState([])
+    const {user, collection} = useContext(Context)
     const {id} = useParams()
     const userId = id ? id : user.user.id
 
 
 
-
     useEffect(() => {
         fetchUser(userId).then(data => setAuthor(data))
-
     }, [])
 
     useEffect( () => {
-        fetchCollections(userId, 10).then(data => setCollections(data.rows))
-    })
+        fetchCollections(userId, 10).then(data => collection.setCollections(data.rows))
+    },[])
 
     if (id & !user.isAdmin) {
         return (<h1>У вас нет прав</h1>);
@@ -37,11 +34,14 @@ const UserPage = () => {
     return (
         <Container>
             <UserCurrent user={author}/>
-            <CollectionList collections={collections}/>
+            <CollectionList
+                collections={collection.collections}
+                userId={userId}
+            />
             {/*<UserPageContent author={author}/>*/}
         </Container>
     )
-};
+});
 
 export default UserPage;
 

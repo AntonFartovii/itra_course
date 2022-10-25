@@ -12,6 +12,7 @@ const UserList = ({users, title}) => {
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>id</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Activated</th>

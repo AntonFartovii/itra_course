@@ -10,6 +10,7 @@ export class AuthController {
             if ( !errors.isEmpty() ) {
                 return next(ApiError.badRequest('Validation error', errors.array()))
             }
+
             const {email, password, role} = req.body
             const userData = await authService.registration( email, password, role )
             res.cookie('refreshToken', userData.refreshToken, {maxAge:30*24*60*60*1000, httpOnly: true})

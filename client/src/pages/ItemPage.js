@@ -7,11 +7,15 @@ import {createComment, fetchComments} from "../http/commentAPI";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {createLike, fetchLikes} from "../http/likeAPI";
+import Card from "react-bootstrap/Card";
+import {createTag, fetchTags} from "../http/tagAPI";
 
 const ItemPage = observer (() => {
     const {user} = useContext(Context)
     const [item, setItem] = useState({info: []})
+    const [tags, setTags] = useState([])
     const [value, setValue] = useState('')
+    const [tag, setTag] = useState('')
     const [addedComment, setAddedComment] = useState(false)
     const [comments, setComments] = useState([])
     const [likes, setLikes] = useState(0)
@@ -20,6 +24,7 @@ const ItemPage = observer (() => {
 
     useEffect(() => {
         fetchOneItem(id).then(data => {
+            console.log( data )
             setItem(data)
             const count = data.likes ? data.likes.length : 0
             setLikes(data.likes.length)
@@ -33,7 +38,13 @@ const ItemPage = observer (() => {
             setComments(data)
             setAddedComment(false)
         })
-    }, [addedComment])
+    }, [comments])
+
+    useEffect(() => {
+        fetchTags(50).then(data => {
+            setTags(data)
+        })
+    },[])
 
     const addComment = () => {
         if (value) {
@@ -61,6 +72,14 @@ const ItemPage = observer (() => {
         })
     }
 
+    const addTag = () => {
+        if (tag) {
+            createTag({name: tag}).then(data => {
+                console.log(data);
+            })
+        }
+    }
+
     return (
         <Container>
             <h3>
@@ -72,6 +91,34 @@ const ItemPage = observer (() => {
             {
                 isLike ? 'Вы поставили лайк' : 'Вы не поставили лайк'
             }
+            <Card className="mb-3">
+                <Card.Header>
+                    <Form>
+                        <Form.Label>Tags</Form.Label>
+                        <Form.Control
+                            value={tag}
+                            onChange={e => setTag(e.target.value)}
+                            placeholder={"Enter tag"}
+                        />
+                        <Button
+                            className="mt-2"
+                            onClick={addTag}
+                            variant="primary"
+                        >
+                            Add tag
+                        </Button>
+                    </Form>
+                </Card.Header>
+                <Card.Body>
+                    <Card.Title></Card.Title>
+                    <Card.Text>
+                        {
+                            tags.map( tag => <Button>{tag.name}</Button>)
+                        }
+                    </Card.Text>
+                </Card.Body>
+            </Card>
+
             <CommentsList comments={comments} key={item.id}/>
             <Form className="mb-3">
                 <Form.Group className="mb-3" controlId="formBasicEmail">

@@ -5,7 +5,7 @@ import {Container} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const FormAddItem = () => {
+const ItemForm = () => {
     const [item, setItem] = useState({name: '', description: ''})
     const [items, setItems] = useState([
         {id: 1, name: "Item"},
@@ -43,4 +43,4 @@ const FormAddItem = () => {
     );
 };
 
-export default FormAddItem;
+export default ItemForm;

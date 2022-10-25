@@ -16,8 +16,9 @@ const Main = observer(() => {
     useEffect( () => {
         fetchItems(null,null,10, 'createdAt').then( data => {
             item.setItems(data.rows)
+            item.setRefresh(false)
         })
-    },[])
+    },[item.refresh])
 
     useEffect( () => {
         fetchCollections(null,5).then( data => {
@@ -28,8 +29,15 @@ const Main = observer(() => {
 
     return (
         <Container>
-            <ItemList items = {item.items} title="List last items"/>
-            <CollectionList collections = {collection.collections} title="Biggest collection list"/>
+            <ItemList
+                items = {item.items}
+                title="List last items"
+            />
+
+            <CollectionList
+                collections = {collection.collections}
+                title="Biggest collection list"
+            />
         </Container>
     );
 });

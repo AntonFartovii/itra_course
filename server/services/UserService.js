@@ -9,14 +9,15 @@ class UserService {
 
     async getAllUsers() {
         return await userModel.findAll({
-            attributes: {exclude: ['password'], order: [['id', 'DESC']]}
+            attributes: {exclude: ['password', 'activationLink']},
+            order: [['id', 'DESC']]
         })
     }
 
     async getUserById( id ) {
         return await userModel.findOne({
             where: {id},
-            include: [CollectionModel],
+            include: [CollectionModel, RoleModel],
             attributes: {exclude: ['password']}
         })
     }

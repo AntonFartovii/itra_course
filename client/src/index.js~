@@ -1,11 +1,11 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import UserStore from "./stores/UserStore";
-import ItemStore from "./stores/ItemStore";
-import {CollectionStore} from "./stores/CollectionStore";
-import {TagStore} from "./stores/TagStore";
-import {AdminStore} from "./stores/AdminStore";
+import UserStore from "./store/UserStore";
+import ItemStore from "./store/ItemStore";
+import {CollectionStore} from "./store/CollectionStore";
+import {TagStore} from "./store/TagStore";
+import {AdminStore} from "./store/AdminStore";
 
 export const Context = createContext(null)
 

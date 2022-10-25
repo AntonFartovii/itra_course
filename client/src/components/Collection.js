@@ -19,7 +19,7 @@ const Collection = ( props ) => {
                         {props.index}
                     </td>
                     <td>
-                        <NavLink onClick={()=> navigate(COLLECTION_PAGE_ROUTE + '/' + props.collection.id, { replace: true })}>
+                        <NavLink onClick={()=> navigate(COLLECTION_PAGE_ROUTE + '/' + id, { replace: true })}>
                             {props.collection.name}
                         </NavLink>
                     </td>
@@ -28,8 +28,8 @@ const Collection = ( props ) => {
                     </td>
                     <td>
                         {
-                            user.isAdmin
-                            ? <CollectionBar id={id}/>
+                            user.isAdmin || user.user.id === id
+                            ? <CollectionBar id={id} collection={props.collection}/>
                             : <h4>Admin-only access</h4>
                         }
 

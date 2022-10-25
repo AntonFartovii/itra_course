@@ -1,16 +1,23 @@
-import React, {useContext} from 'react';
-import {observer} from "mobx-react-lite";
-import {Context} from "../index";
+import React, {useContext, useState} from 'react';
 import Collection from "./Collection";
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
+import CreateCollection from "./modals/CreateCollection";
 
-const CollectionList = ({collections,title}) => {
+const CollectionList = ({collections, title = 'Collections list', userId}) => {
+    const [addVisible, setAddVisible] = useState(false)
 
-
-    title = title || 'Collections list'
     return (
         <div>
-            <h1>{title}</h1>
+            <h2>{title}</h2>
+            <Button variant="primary" onClick={() => setAddVisible(true)}>
+                Create collection
+            </Button>
+            <CreateCollection
+                userId={userId}
+                show={addVisible}
+                onHide={() => setAddVisible(false)}
+            />
+
             <Table striped bordered hover>
                 <thead>
                 <tr>

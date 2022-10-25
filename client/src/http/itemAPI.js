@@ -15,8 +15,14 @@ export const fetchItems = async (userId, collectionId, limit, sort = "") => {
 }
 
 export const fetchOneItem = async (id) => {
-    const {data} = await $host.get('api/item/' + id)
-    return data
+    try {
+        const {data} = await $host.get('api/item/' + id)
+        return data
+    } catch (e) {
+        console.log( e )
+        return e
+    }
+
 }
 
 export const deleteItem = async (id) => {
