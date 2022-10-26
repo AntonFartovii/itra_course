@@ -6,8 +6,13 @@ import ItemStore from "./stores/ItemStore";
 import {CollectionStore} from "./stores/CollectionStore";
 import {TagStore} from "./stores/TagStore";
 import {AdminStore} from "./stores/AdminStore";
+import locales from "./constants/locales";
+import LocalStore from "./stores/localStore";
 
-export const Context = createContext(null)
+export const Context = createContext({
+    locale: locales.EN
+})
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +21,8 @@ root.render(
                 admin: new AdminStore(),
                 item: new ItemStore(),
                 collection: new CollectionStore(),
-                tag: new TagStore()
+                tag: new TagStore(),
+                localization: new LocalStore()
             }}>
                 <App />
             </Context.Provider>

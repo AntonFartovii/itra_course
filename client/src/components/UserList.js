@@ -1,7 +1,7 @@
 import React from 'react';
-import {Table, Container} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import User from "./User";
-import UserBar from "./UserBar";
+import { FormattedMessage } from 'react-intl'
 
 const UserList = ({users, title}) => {
 
@@ -13,13 +13,13 @@ const UserList = ({users, title}) => {
                 <tr>
                     <th>#</th>
                     <th>id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Activated</th>
-                    <th>Ban</th>
-                    <th>Created date</th>
-                    <th>Roles</th>
-                    <th>Toolbar</th>
+                    <th><FormattedMessage id='app.table.name' /></th>
+                    <th><FormattedMessage id='app.table.email' /></th>
+                    <th><FormattedMessage id='app.table.activated' /></th>
+                    <th><FormattedMessage id='app.table.ban' /></th>
+                    <th><FormattedMessage id='app.table.created' /></th>
+                    <th><FormattedMessage id='app.table.role' /></th>
+                    <th><FormattedMessage id='app.table.toolbar' /></th>
                 </tr>
                 </thead>
                 <tbody>

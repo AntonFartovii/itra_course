@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {Routes, Route, Navigate} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import {authRoutes, publicRoutes} from "../routes";
 import {Context} from "../index";
-import Main from "../pages/Main";
+import MainPage from "../pages/MainPage";
 
 const AppRouter = () => {
     const {user} = useContext(Context)
@@ -16,7 +16,7 @@ const AppRouter = () => {
             {publicRoutes.map( ({path, Component}) =>
                 <Route key={path} path={path} element={Component}/>
             )}
-            <Route path="*" element={<Main/>}></Route>
+            <Route path="*" element={<MainPage/>}></Route>
         </Routes>
     );
 };

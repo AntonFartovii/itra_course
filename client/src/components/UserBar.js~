@@ -3,7 +3,6 @@ import {Button} from "react-bootstrap";
 import BanUser from "./modals/BanUser";
 import AdminUser from "./modals/AdminUser";
 import DeleteUser from "./modals/DeleteUser";
-import { FormattedMessage } from 'react-intl'
 
 const UserBar = ({id}) => {
     const [deleteVisible, setDeleteVisible] = useState(false)
@@ -13,13 +12,13 @@ const UserBar = ({id}) => {
     return (
         <div>
             <Button className="ml-2 mx-2" variant="secondary" onClick={() => setBanVisible(true)}>
-                <FormattedMessage id='button.ban' />
+                Ban/ban
             </Button>
             <Button className="ml-2 mx-2" variant="secondary" onClick={() => setAdminVisible(true)}>
-                <FormattedMessage id='button.admin' />
+                Admin add/remove
             </Button>
             <Button className="ml-2 mx-2" variant="danger" onClick={() => setDeleteVisible(true)}>
-                <FormattedMessage id='button.delete' />
+                Delete
             </Button>
 
             <BanUser

@@ -4,6 +4,7 @@ import DeleteCollection from "./modals/DeleteCollection";
 import EditCollection from "./modals/EditCollection";
 import CreateItem from "./modals/CreateItem";
 import CreateProp from "./modals/CreateProp";
+import { FormattedMessage } from 'react-intl'
 
 const CollectionBar = ({id, collection, setCollection}) => {
     const [deleteVisible, setDeleteVisible] = useState(false)
@@ -14,17 +15,17 @@ const CollectionBar = ({id, collection, setCollection}) => {
     return (
         <div>
             <Button className="mx-2" variant="outline-secondary" onClick={() => setEditVisible(true)}>
-                Edit
+                <FormattedMessage id='button.edit' />
             </Button>
 
             <Button className="mx-2" variant="outline-danger" onClick={() => setDeleteVisible(true)}>
-                Delete
+                <FormattedMessage id='button.delete' />
             </Button>
             <Button className="mx-2" variant="outline-primary" onClick={() => setAddVisible(true)}>
-                Create item
+                <FormattedMessage id='button.add' />
             </Button>
             <Button className="mx-2" variant="outline-success" onClick={() => setPropVisible(true)}>
-                Add prop
+                <FormattedMessage id='button.add.prop' />
             </Button>
 
             <EditCollection

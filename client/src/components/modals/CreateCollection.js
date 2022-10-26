@@ -7,9 +7,7 @@ import CollectionForm from "../forms/CollectionForm";
 
 const CreateCollection = ({show, onHide, userId}) => {
 
-    const [collection, setCollection] = useState({
-        name: '', theme: '', description: ''
-    })
+    const [collection, setCollection] = useState({})
 
     const addCollection = () => {
         createCollection({...collection, userId}).then( data => {

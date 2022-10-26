@@ -1,0 +1,64 @@
+{
+  "app.name": "My collections",
+  "app.header.search": "Search",
+  "app.header.search.placeholder": "Search text",
+  "app.header.menu.user": "User page",
+  "app.header.menu.admin": "Admin page",
+  "app.header.menu.logout": "Logout",
+  "app.header.menu.login": "Signin",
+  "app.table.created": "Creation date",
+  "app.table.name": "Name",
+  "app.table.email": "E-mail",
+  "app.table.activated": "Activated",
+  "app.table.ban": "Banned",
+  "app.table.role": "Role",
+  "app.table.collection.name": "Collection name",
+  "app.table.author": "Author",
+  "app.table.items.count": "Items Count",
+  "app.table.toolbar": "Toolbar",
+  "button.delete": "Delete",
+  "button.edit": "Edit",
+  "button.create": "Create",
+  "button.create.item": "Create item",
+  "button.create.collection": "Create collection",
+  "button.create.tag": "Create tag",
+  "button.add": "Add",
+  "button.add.prop": "Add property",
+  "button.add.comment": "Add comment",
+  "button.ban": "Ban/unban",
+  "button.admin": "Admin add/remove",
+  "button.close": "close",
+  "button.enter": "Enter",
+  "app.main.list.items": "List last items",
+  "app.main.list.collections": "Biggest collection list",
+  "user.page.title": "User page",
+  "user.page.collections.title": "Collections list",
+  "items.not.found": "Items not found",
+  "collections.not.found": "Collections not found",
+  "tags.not.found": "Tags not found",
+  "comments.not.found": "Comments not found",
+  "permission.message": "You do not have permission",
+  "props.not.found": "Properties not fount",
+  "auth.page.authorization": "Authorization",
+  "auth.page.email.placeholder": "Enter your email",
+  "auth.page.password.placeholder": "Enter your password",
+  "auth.page.registration": "Registration",
+  "auth.page.question.register": "Have not account?",
+  "auth.page.question.register.link": "Register!",
+  "auth.page.question.enter": "Have you got account?",
+  "auth.page.question.enter.link": "Authorize!"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

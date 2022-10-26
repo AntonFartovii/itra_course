@@ -76,8 +76,6 @@ const CollectionPage = observer(() => {
                 </Card.Body>
             </Card>
 
-
-
             {
                 itemError && <h1>Произошла ошибка</h1>
             }

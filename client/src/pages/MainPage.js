@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Container, Row, Col} from "react-bootstrap";
+import React, {useContext, useEffect} from 'react';
+import {Container} from "react-bootstrap";
 import ItemList from "../components/ItemList";
 
 import {observer} from "mobx-react-lite";
@@ -7,6 +7,7 @@ import {Context} from "../index";
 import {fetchItems} from "../http/itemAPI";
 import CollectionList from "../components/CollectionList";
 import {fetchCollections} from "../http/collectionAPI";
+import { FormattedMessage } from 'react-intl'
 
 const Main = observer(() => {
     const {user} = useContext(Context)
@@ -29,15 +30,17 @@ const Main = observer(() => {
 
     return (
         <Container>
+
             <ItemList
                 items = {item.items}
-                title="List last items"
+                title={<FormattedMessage id='app.main.list.items' />}
             />
 
             <CollectionList
                 collections = {collection.collections}
-                title="Biggest collection list"
+                title={<FormattedMessage id='app.main.list.collections' />}
             />
+
         </Container>
     );
 });

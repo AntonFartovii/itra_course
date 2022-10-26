@@ -1,6 +1,6 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import Modal from "react-bootstrap/Modal";
-import {Button, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {switchAdminRole} from "../../http/userAPI";
 import {Context} from "../../index";
 

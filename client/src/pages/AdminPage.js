@@ -5,7 +5,7 @@ import {Context} from "../index";
 import {Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
-const Admin = observer (() => {
+const AdminPage = observer (() => {
     const [users, setUsers] = useState([])
     const {user} = useContext(Context)
 
@@ -30,4 +30,4 @@ const Admin = observer (() => {
             </Container>)
 });
 
-export default Admin;
+export default AdminPage;

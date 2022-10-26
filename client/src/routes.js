@@ -5,10 +5,10 @@ import {
     MAIN_ROUTE,
     REGISTRATION_ROUTE,
     USER_ROUTE
-} from "./utils/consts";
-import Auth from "./pages/Auth";
-import Admin from "./pages/Admin";
-import Main from "./pages/Main";
+} from "./constants/consts";
+import AuthPage from "./pages/AuthPage";
+import AdminPage from "./pages/AdminPage";
+import Main from "./pages/MainPage";
 import UserPage from "./pages/UserPage";
 import CollectionPage from "./pages/CollectionPage";
 import ItemPage from "./pages/ItemPage";
@@ -16,7 +16,7 @@ import ItemPage from "./pages/ItemPage";
 export const authRoutes = [
     {
         path: ADMIN_ROUTE,
-        Component: <Admin/>,
+        Component: <AdminPage/>,
     },
     {
         path: ADMIN_ROUTE + '/user/:id',
@@ -36,11 +36,11 @@ export const publicRoutes = [
     },
     {
         path: LOGIN_ROUTE,
-        Component: <Auth/>,
+        Component: <AuthPage/>,
     },
     {
         path: REGISTRATION_ROUTE,
-        Component: <Auth/>,
+        Component: <AuthPage/>,
     },
     {
         path: COLLECTION_PAGE_ROUTE + '/:id',
