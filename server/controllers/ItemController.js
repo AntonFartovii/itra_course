@@ -13,6 +13,16 @@ class ItemController {
         }
     }
 
+    async addTag(req, res, next) {
+        try {
+            const {itemId, tagId} = req.body
+            const data = await itemService.tag( itemId, tagId )
+            return res.send( data )
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async getItems (req, res, next) {
         try {
             let {userId, collectionId, sort, limit} = req.query

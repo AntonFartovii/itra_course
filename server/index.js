@@ -22,8 +22,11 @@ const dirname = getDirname( import.meta.url )
 
 app.use(cors())
 app.use(express.json())
-app.use(express.static( path.resolve(dirname,'../client/build')))
+// app.use(express.static( path.resolve(dirname,'./public/')))
 app.use(cookieParser())
+app.get('/', function (req, res) {
+    res.send('Client: <a href="https://irtaclient.vercel.com">https://irtaclient.vercel.app</a>');
+})
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/role', roleRouter)

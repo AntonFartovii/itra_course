@@ -4,12 +4,15 @@ import {Alert, Button, Table} from "react-bootstrap";
 import CreateCollection from "./modals/CreateCollection";
 import {Context} from "../index";
 import { FormattedMessage } from 'react-intl'
+import {useNavigate} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
-const CollectionList = ({collections, title = 'Collections list', userId}) => {
+const CollectionList = ({ collections, title = 'Collections list', userId}) => {
     const [addVisible, setAddVisible] = useState(false)
     const {user} = useContext(Context)
+    const navigate = useNavigate()
 
-
+    console.log( window.location.pathname )
     return (
         <div>
             <h2>{title}</h2>
@@ -37,7 +40,11 @@ const CollectionList = ({collections, title = 'Collections list', userId}) => {
                     <th><FormattedMessage id='app.table.name' /></th>
                     <th><FormattedMessage id='app.table.author' /></th>
                     <th><FormattedMessage id='app.table.items.count' /></th>
-                    <th><FormattedMessage id='app.table.toolbar' /></th>
+                    {
+                        window.location.pathname !== '/'
+                        && <th><FormattedMessage id='app.table.toolbar' /></th>
+                    }
+
                 </tr>
                 </thead>
                 <tbody>

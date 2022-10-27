@@ -1,40 +1,56 @@
 
-import {TagModel} from "../models/models.js";
+import {TagModel, ItemModel} from "../models/models.js";
+import {UserModel} from "../models/models.js";
+import {CollectionModel} from "../models/models.js";
 
 function createQuery( dto ) {
-    const {name, collectionId, limit = 10} = dto
+    const {name, limit = 10} = dto
     let query = {limit}
     let where = {}
     if ( name ) where = {...where, name}
-    return  {...query, where}
+    return  {...query, where, include: [
+            {model: ItemModel, as: 'items'}
+        ]}
 }
 
 class TagService {
 
     async create( dto ) {
-        const comment = await TagModel.create( dto )
-        return comment
+        const entity = await TagModel.create( dto )
+        return entity
     }
 
     async getAll( dto ) {
+        if (dto.name) return this.getOneByName( dto.name )
         const query = createQuery( dto )
-        return await TagModel.findAll( query )
+        const entity = await TagModel.findAll( query )
+        return entity
     }
 
     async getOne( id ) {
-        const comment = await TagModel.findByPk( id )
-        return comment
+        const entity = await TagModel.findOne({
+            where:{id},
+            include: [
+                {model: ItemModel, as: 'items', include: [UserModel, CollectionModel]}
+                ]
+        } )
+        return entity
     }
 
-    async getOneByName( id ) {
-        const comment = await TagModel.findOne({where: {name}})
-        return comment
+    async getOneByName( name ) {
+        const entity = await TagModel.findOne({
+            where: {name},
+            include: [
+                {model: ItemModel, as: 'items'}
+            ]
+        })
+        return entity
     }
 
     async delete( id ) {
-        const comment = await TagModel.findByPk( id )
-        if ( !comment ) throw new Error('')
-        return await comment.destroy()
+        const entity = await TagModel.findByPk( id )
+        if ( !entity ) throw new Error('')
+        return await entity.destroy()
     }
 }
 

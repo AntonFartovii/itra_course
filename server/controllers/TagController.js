@@ -1,5 +1,3 @@
-import {validationResult} from "express-validator";
-import {ApiError} from "../error/ApiError.js";
 import {propService} from "../services/propService.js";
 import {tagService} from "../services/TagService.js";
 

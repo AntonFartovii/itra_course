@@ -22,7 +22,6 @@ const messages = {
     [locales.ES]: esMessages,
     [locales.RU]: ruMessages,
 };
-
 const App = observer( () => {
     const {user, localization} = useContext(Context)
     const [loading, setLoading] = useState(true)

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Context} from "../index";
 
 import Nav from 'react-bootstrap/Nav';
@@ -14,6 +14,7 @@ import {ADMIN_ROUTE, USER_ROUTE} from "../constants/consts";
 import {observer} from "mobx-react-lite";
 import LocalePicker from "./forms/LocalePicker";
 import { FormattedMessage } from 'react-intl'
+import SearchItems from "./SearchItems";
 
 const NavBar = observer(() => {
     const {user} = useContext(Context)
@@ -25,6 +26,7 @@ const NavBar = observer(() => {
         navigate(LOGIN_ROUTE)
         localStorage.removeItem('token')
     }
+
     const expand = false
     return (    <Container>
                     <Navbar key={expand} bg="light" expand={expand} className="mb-3">
@@ -34,18 +36,11 @@ const NavBar = observer(() => {
                                     <FormattedMessage id='app.name' />
                                 </NavLink>
                             </Navbar.Brand>
-
-                            <Form className="d-flex">
-                                <Form.Control
-                                    type="search"
-                                    className="me-2"
-                                    aria-label="Search"
-                                />
-                                <Button variant="outline-success">
-                                    <FormattedMessage id='app.header.search' />
-                                </Button>
-                            </Form>
-                                <LocalePicker />
+                            <Nav.Item>
+                                <Nav.Link href="/tag">Tags</Nav.Link>
+                            </Nav.Item>
+                            {/*<SearchItems/>*/}
+                            <LocalePicker />
                             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                             <Navbar.Offcanvas
                                 id={`offcanvasNavbar-expand-${expand}`}
@@ -58,7 +53,7 @@ const NavBar = observer(() => {
                                     </Offcanvas.Title>
                                 </Offcanvas.Header>
                                 <Offcanvas.Body>
-                                                      {   user.isAuth
+                                        {   user.isAuth
                                             ? <Nav className="justify-content-end flex-grow-1 pe-3">
                                                 <Button
                                                     onClick={() => navigate(USER_ROUTE)}

@@ -33,9 +33,13 @@ const Item = ( props ) => {
                     <td>
                         {props.item.user ? props.item.user.email : 'not data'}
                     </td>
-                    <td>
-                        {user.isAdmin && <ItemBar id={props.item.id}/>}
-                    </td>
+                    {
+                        window.location.pathname !== '/'
+                        && <td>
+                            {user.isAdmin && <ItemBar id={props.item.id}/>}
+                        </td>
+                    }
+
                 </tr>
     );
 };

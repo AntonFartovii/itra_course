@@ -8,6 +8,8 @@ import {fetchItems} from "../http/itemAPI";
 import CollectionList from "../components/CollectionList";
 import {fetchCollections} from "../http/collectionAPI";
 import { FormattedMessage } from 'react-intl'
+import TagCloud from "../components/TagCloud";
+import Test from "../components/test";
 
 const Main = observer(() => {
     const {user} = useContext(Context)
@@ -28,9 +30,10 @@ const Main = observer(() => {
         })
     }, [user.auth])
 
+
     return (
         <Container>
-
+            <TagCloud/>
             <ItemList
                 items = {item.items}
                 title={<FormattedMessage id='app.main.list.items' />}
@@ -40,7 +43,6 @@ const Main = observer(() => {
                 collections = {collection.collections}
                 title={<FormattedMessage id='app.main.list.collections' />}
             />
-
         </Container>
     );
 });

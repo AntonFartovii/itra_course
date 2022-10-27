@@ -41,7 +41,9 @@ export const LikeModel = sequelize.define('like', {
 
 export const PropModel = sequelize.define('prop', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name:           {type: DataTypes.STRING}
+    name:           {type: DataTypes.STRING},
+    type:           {type: DataTypes.STRING}
+
 })
 
 export const TagModel = sequelize.define('tag', {
@@ -100,7 +102,7 @@ ItemModel.belongsToMany(TagModel, {through: TagItems, as: 'tags', foreignKey: 'i
 TagModel.belongsToMany(ItemModel, {through: TagItems, as: 'items', foreignKey: 'tagId'})
 
 PropModel.belongsToMany(ItemModel, {through: ItemProps})
-ItemModel.belongsToMany(TagModel, {through: ItemProps})
+ItemModel.belongsToMany(PropModel, {through: ItemProps})
 
 // await UserModel.sync();
 // await RoleModel.sync();

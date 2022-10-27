@@ -3,10 +3,11 @@ import {ApiError} from "../error/ApiError.js";
 import {propService} from "../services/propService.js";
 
 class PropController {
+
     async create(req, res, next) {
         try {
-            const {name, collectionId} = req.body
-            const data = await propService.create( {name, collectionId} )
+            const {name, collectionId, type} = req.body
+            const data = await propService.create( {name, collectionId, type} )
             return res.send( data )
         } catch (e) {
             next(e)
@@ -15,8 +16,8 @@ class PropController {
 
     async getAll(req, res, next) {
         try {
-            const {name, collectionId, limit} = req.query
-            const data = await propService.getAll({name, collectionId, limit})
+            const {name, collectionId, type, limit} = req.query
+            const data = await propService.getAll({name, collectionId, type, limit})
             return res.send( data )
         } catch (e) {
             next(e)

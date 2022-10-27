@@ -6,21 +6,21 @@ import {useParams} from 'react-router-dom'
 import {fetchOneCollection} from "../http/collectionAPI";
 import {fetchItems} from "../http/itemAPI";
 import ItemFilter from "../components/ItemFilter";
-import {useItems} from "../components/hooks/useItems";
-import {useFetching} from "../components/hooks/useFetching";
 import CollectionBar from "../components/CollectionBar";
 import {observer} from "mobx-react-lite";
 import Markdown from "react-remarkable";
-import props from "../constants/props";
-import {login} from "../http/userAPI";
+import {useFetching} from "./hooks/useFetching";
+import {useItems} from "./hooks/useItems";
 
-const CollectionPage = observer(() => {
+
+const Test = observer(() => {
     const {user} = useContext(Context)
     const {collection} = useContext(Context)
 
     const [items, setItems] = useState([])
     const [filter, setFilter] = useState({sort: '', query: ''})
 
+    const [props, setProps] = useState([])
     const {id} = useParams()
 
     const [fetchData, isItemsLoading, itemError] = useFetching(async () => {
@@ -31,7 +31,7 @@ const CollectionPage = observer(() => {
     useEffect(() => {
         fetchOneCollection(id).then(data => {
             collection.setCollection(data)
-            console.log( data )
+            setProps(data.props)
             collection.setRefresh(false)
         })
     }, [collection.refresh])
@@ -42,60 +42,36 @@ const CollectionPage = observer(() => {
 
     const sortedAndSearchedItems = useItems(items, filter.sort, filter.query)
 
-    console.log( props )
     return (
         <Container>
             <ItemFilter filter={filter} setFilter={setFilter}></ItemFilter>
             <hr style={{margin: '15px 0'}}/>
-
-            {
-                user.user.id === collection.collection.userId || user.isAdmin
-                && <CollectionBar
-                    id={id}
-                    collection={collection.collection}
-                    setCollection={collection.setCollection}
-                />
-            }
-
+            <CollectionBar
+                id={id}
+                collection={collection.collection}
+                setCollection={collection.setCollection}
+            />
 
             <Card className="mb-2 mt-2">
                 <Card.Header><h3>{collection.collection.name}</h3></Card.Header>
                 <Card.Body>
                     <Card.Title>Markdown to html description:</Card.Title>
-                    <Markdown source={collection.collection.description} />
+                    <Card.Text>
+                        <Markdown source={collection.collection.description} />
+                    </Card.Text>
                 </Card.Body>
             </Card>
 
             <Card className="mb-2">
                 <Card.Header><h5>Collection properties</h5></Card.Header>
                 <Card.Body>
-                    <Card.Title>Вы можете создать:</Card.Title>
-                    <Card.Subtitle>
+                    <Card.Text>
                         {
-                            props.forEach( prop => {
-                                    console.log(prop.type)
-                                    })
-                        }
-                        {
-                            collection.collection.props && collection.collection.props.map( prop =>
-                                <h4 key={prop.id}>{prop.type}</h4>
+                            props && props.map( prop =>
+                                <Button className="mx-3" variant="info">{prop.name}</Button>
                             )
                         }
-
-                        3 целочисленных поля,<br/>
-                        3 строковый поля,<br/>
-                        3 многострочных текста,<br/>
-                        3 логических да/нет чекбокса,<br/>
-                        3 поля даты
-                    </Card.Subtitle>
-
-                        {
-                            !collection.collection.props
-                                ?  'В коллекции нет созданных свойств'
-                                :   collection.collection.props.map( prop =>
-                                        <Button key={prop.id} className="mx-3" variant="info">{prop.name}</Button>
-                                    )
-                        }
+                    </Card.Text>
                 </Card.Body>
             </Card>
 
@@ -104,11 +80,11 @@ const CollectionPage = observer(() => {
             }
             {
                 isItemsLoading
-                ?   <Spinner animation="border" size="sm" />
-                :   <ItemList key={collection.id} items={sortedAndSearchedItems}></ItemList>
+                    ?    <Spinner animation="border" size="sm" />
+                    :   <ItemList items={sortedAndSearchedItems}></ItemList>
             }
         </Container>
     );
 });
 
-export default CollectionPage;
+export default Test;

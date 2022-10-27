@@ -1,6 +1,7 @@
 import {CollectionModel as collectionModel} from "../models/models.js";
 import {sequelize} from '../db.js'
 import {PropModel} from "../models/models.js";
+import {UserModel} from "../models/models.js";
 
 class CollectionService {
 
@@ -20,6 +21,7 @@ class CollectionService {
         const collections = async (userId, limit) => {
             let query = {
                 limit,
+                include: [UserModel],
                 attributes: {
                     include: [
                         [

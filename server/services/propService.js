@@ -2,11 +2,12 @@
 import {PropModel} from "../models/models.js";
 
 function createQuery( dto ) {
-    const {name, collectionId, limit = 10} = dto
+    const {name, collectionId, type, limit = 10} = dto
     let query = {limit}
     let where = {}
     if ( name ) where = {...where, name}
     if ( collectionId ) where = {...where, collectionId}
+    if ( type ) where = {...where, type}
     return  {...query, where}
 }
 

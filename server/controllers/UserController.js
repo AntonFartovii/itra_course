@@ -29,7 +29,6 @@ class UserController {
         } catch (e) {
             next(e)
         }
-
     }
 
     async switchAdminRole(req, res, next) {

@@ -19,7 +19,11 @@ const ItemList = observer(({items = [],title}) => {
                             <th><FormattedMessage id='app.table.name' /></th>
                             <th><FormattedMessage id='app.table.collection.name' /></th>
                             <th><FormattedMessage id='app.table.author' /></th>
-                            <th><FormattedMessage id='app.table.toolbar' /></th>
+                            {
+                                window.location.pathname !== '/'
+                                && <th><FormattedMessage id='app.table.toolbar' /></th>
+                            }
+
                         </tr>
                         </thead>
                         <tbody>

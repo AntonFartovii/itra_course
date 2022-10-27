@@ -20,6 +20,5 @@ export default function LocalePicker() {
                 <option value={locales.ES} >Espaniol</option>
                 <option value={locales.RU} >Русский</option>
             </Form.Select>
-
     )
 }

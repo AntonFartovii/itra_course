@@ -4,10 +4,13 @@ import {COLLECTION_PAGE_ROUTE} from "../constants/consts";
 import {useNavigate} from 'react-router-dom'
 import CollectionBar from "./CollectionBar";
 import {Context} from "../index";
+import ItemBar from "./ItemBar";
 
 const Collection = ( props ) => {
     const {user} = useContext(Context)
     const id = props.collection.id
+    const author = props.collection.user.email
+
     const navigate = useNavigate()
 
     return (
@@ -22,19 +25,23 @@ const Collection = ( props ) => {
                         </NavLink>
                     </td>
                     <td>
-                        {props.collection.userId}
+                        {props.collection.user && props.collection.user.email}
                     </td>
                     <td>
                         {props.collection.count}
                     </td>
-                    <td>
-                        {
-                            user.isAdmin || user.user.id === id
-                            ? <CollectionBar id={id} collection={props.collection}/>
-                            : <h4>Admin-only access</h4>
-                        }
+                    {
+                        window.location.pathname !== '/'
+                        && <td>
+                            {
+                                user.isAdmin || user.user.id === id
+                                    ? <CollectionBar id={id} collection={props.collection}/>
+                                    : <h4>Admin-only access</h4>
+                            }
 
-                    </td>
+                        </td>
+                    }
+
                 </tr>
     );
 };

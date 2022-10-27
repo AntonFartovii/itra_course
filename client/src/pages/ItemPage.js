@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom'
 import {Container, Button, Form, Badge} from "react-bootstrap";
-import {fetchOneItem} from "../http/itemAPI";
+import {fetchOneItem, itemAddTag} from "../http/itemAPI";
 import CommentsList from "../components/CommentsList";
 import {createComment, fetchComments} from "../http/commentAPI";
 import {Context} from "../index";
@@ -9,15 +9,13 @@ import {observer} from "mobx-react-lite";
 import {createLike, fetchLikes} from "../http/likeAPI";
 import Card from "react-bootstrap/Card";
 import {createTag, fetchTags} from "../http/tagAPI";
+import TagList from "../components/TagList";
 
 const ItemPage = observer (() => {
     const {user} = useContext(Context)
-    const [item, setItem] = useState({info: []})
-    const [tags, setTags] = useState([])
+    const [item, setItem] = useState({})
     const [value, setValue] = useState('')
     const [tag, setTag] = useState('')
-    const [addedComment, setAddedComment] = useState(false)
-    const [comments, setComments] = useState([])
     const [likes, setLikes] = useState(0)
     const [isLike, setIsLike] = useState(false)
     const {id} = useParams()
@@ -31,26 +29,13 @@ const ItemPage = observer (() => {
             const like = data.likes.find(like => like.userId === user.user.id)
             like ? setIsLike(true) : setIsLike(false)
         })
-    },[])
-
-    useEffect(() => {
-        fetchComments(null, id, 100).then( data => {
-            setComments(data)
-            setAddedComment(false)
-        })
-    }, [comments])
-
-    useEffect(() => {
-        fetchTags(50).then(data => {
-            setTags(data)
-        })
-    },[])
+    },[item])
 
     const addComment = () => {
         if (value) {
             createComment({value, userId: user.user.id, itemId: item.id}).then( comment => {
-                setComments ([...comments, comment])
-                setAddedComment(true)
+                const comments = [...item.comments, comment]
+                setItem ({...item, comments} )
                 setValue('')
             })
         } else {
@@ -74,7 +59,7 @@ const ItemPage = observer (() => {
 
     const addTag = () => {
         if (tag) {
-            createTag({name: tag}).then(data => {
+            itemAddTag({name: tag}).then(data => {
                 console.log(data);
             })
         }
@@ -83,7 +68,7 @@ const ItemPage = observer (() => {
     return (
         <Container>
             <h3>
-                <Badge bg="secondary">ID: {item.id}</Badge>{item.name}
+                {item.name}
             </h3>
             <Button variant="primary" onClick={addLike} className="mb-3">
                 Likes <Badge bg="secondary">{likes}</Badge>
@@ -112,14 +97,13 @@ const ItemPage = observer (() => {
                 <Card.Body>
                     <Card.Title></Card.Title>
                     <Card.Text>
-                        {
-                            tags.map( tag => <Button>{tag.name}</Button>)
-                        }
+                        <TagList tags={item.tags}/>
                     </Card.Text>
                 </Card.Body>
             </Card>
 
-            <CommentsList comments={comments} key={item.id}/>
+            <CommentsList comments={item.comments} key={item.id}/>
+
             <Form className="mb-3">
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Comment form</Form.Label>

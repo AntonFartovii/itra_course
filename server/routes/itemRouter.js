@@ -5,6 +5,7 @@ import {itemController} from "../controllers/ItemController.js";
 const router = Router()
 
 router.post('/', await itemController.createItem)
+router.post('/tag', await itemController.addTag)
 router.get('/', await itemController.getItems)
 router.get('/:id', await itemController.getItem)
 router.delete('/:id', await itemController.deleteItem)

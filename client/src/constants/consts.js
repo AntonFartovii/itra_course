@@ -1,6 +1,7 @@
 
 export const MAIN_ROUTE = '/'
 export const COLLECTION_PAGE_ROUTE = '/collection'
+export const TAG_ROUTE = '/tag'
 export const ITEM_ROUTE = '/item'
 export const ADMIN_ROUTE = '/admin'
 export const USER_ROUTE = '/user'

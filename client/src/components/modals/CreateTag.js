@@ -1,22 +1,17 @@
 import React, {useContext, useState} from 'react';
+import {Context} from "../../index";
 import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
-import {Context} from "../../index";
-import {createProp} from "../../http/propAPI";
-import props from "../../constants/props";
+import {createTag} from "../../http/tagAPI";
 
-const CreateProp = ({show, onHide, collectionId}) => {
-    const {collection} = useContext(Context)
-
+const CreateTag = ({show, onHide}) => {
     const [name, setName] = useState('')
-    const [type, setType] = useState(props[0].type)
+    const {tag} = useContext(Context)
 
     const click = () => {
-        createProp({name, type, collectionId}).then( data => {
-            setName('')
-            console.log( data )
+        createTag({name}).then( data => {
+            tag.setTags([...tag.tags, data])
             onHide()
-            collection.setRefresh(true)
         })
     }
 
@@ -28,27 +23,12 @@ const CreateProp = ({show, onHide, collectionId}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Add prop to collection ID: {collectionId}
+                    Add tag
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <Form>
-                    <Form.Select
-                        style={{width:'130px'}}
-                        onChange={e => setType(e.target.value)}
-                        defaultValue={type}
-                    >
-                        {
-                            !props
-                            ? ''
-                                : props.map( prop =>
-                                    <option value={prop.type} key={prop.id}>{prop.type}</option>
-                                )
-                        }
-
-                    </Form.Select>
-
                     <Form.Control
                         value={name}
                         onChange={e => setName(e.target.value)}
@@ -68,11 +48,11 @@ const CreateProp = ({show, onHide, collectionId}) => {
                     variant="outline-success"
                     onClick={click}
                 >
-                    Done
+                    Add
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default CreateProp;
+export default CreateTag;
