@@ -29,6 +29,7 @@
   "button.admin": "Администратор добавить/удалить",
   "button.close": "Выйти",
   "button.enter": "Войти",
+  "button.tags": "Теги",
   "app.main.list.items": "Последние добавленные элементы",
   "app.main.list.collections": "Самые большие коллекции",
   "user.page.title": "Страница пользователя",
@@ -47,5 +48,6 @@
   "auth.page.question.register": "Нет аккаунта?",
   "auth.page.question.register.link": "Зарегистрироваться!",
   "auth.page.question.enter": "Есть аккаунт?",
-  "auth.page.question.enter.link": "Авторизуйтесь!"
+  "auth.page.question.enter.link": "Авторизуйтесь!",
+  "userlist.title": "Список пользователей"
 }

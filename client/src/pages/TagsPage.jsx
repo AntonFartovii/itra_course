@@ -13,16 +13,16 @@ const TagsPage = observer(() => {
 
     return (
         <div>
-            {
-                user.isAuth &&
-                <Button
-                    className="mb-3"
-                    variant="outline-primary"
-                    onClick={() => setAddVisible(true)}
-                >
-                    <FormattedMessage id='button.add' />
-                </Button>
-            }
+            {/*{*/}
+            {/*    user.isAuth &&*/}
+            {/*    <Button*/}
+            {/*        className="mb-3"*/}
+            {/*        variant="outline-primary"*/}
+            {/*        onClick={() => setAddVisible(true)}*/}
+            {/*    >*/}
+            {/*        <FormattedMessage id='button.add' />*/}
+            {/*    </Button>*/}
+            {/*}*/}
 
                 <CreateTag
                     show={addVisible}

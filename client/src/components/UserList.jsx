@@ -7,7 +7,9 @@ const UserList = ({users, title}) => {
 
     return (
         <div>
-            <h1>{title}</h1>
+            <h1>
+                <FormattedMessage id='userlist.title' />
+            </h1>
             <Table responsive="lg" striped bordered hover>
                 <thead>
                 <tr>

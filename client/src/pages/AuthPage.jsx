@@ -4,8 +4,8 @@ import Card from 'react-bootstrap/Card';
 import Row from "react-bootstrap/Row";
 import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../constants/consts.js";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {login, registration} from "../http/userAPI.js";
-import {Context} from "../index.js";
+import {login, registration} from "../http/userAPI";
+import {Context} from "../index";
 import {MAIN_ROUTE} from "../constants/consts";
 import { FormattedMessage } from 'react-intl'
 

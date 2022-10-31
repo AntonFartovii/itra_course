@@ -3,7 +3,6 @@ import {Context} from "../index";
 import {useParams} from 'react-router-dom'
 import {fetchUser} from "../http/userAPI";
 import UserCurrent from "../components/UserCurrent";
-import {Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {fetchCollections} from "../http/collectionAPI";
 import CollectionList from "../components/CollectionList";

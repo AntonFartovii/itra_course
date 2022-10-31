@@ -2,8 +2,8 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {itemAddTag} from "../http/itemAPI";
 import Card from "react-bootstrap/Card";
 import {Button, Form, Toast, ListGroup} from "react-bootstrap";
-import TagList from "./TagList";
 import {fetchTags} from "../http/tagAPI";
+import TagItemList from "./TagItemList";
 
 const TagsList = ({itemId, user, item, create}) => {
 
@@ -57,7 +57,6 @@ const TagsList = ({itemId, user, item, create}) => {
                             Add tag
                         </Button>
                     }
-
                     <Toast onClose={toggleShowB} show={showB} animation={false}>
                         <Toast.Header>
                             <img
@@ -84,7 +83,6 @@ const TagsList = ({itemId, user, item, create}) => {
                                         >
                                             {tag.name}
                                         </ListGroup.Item>
-
                                     )
                                 }
                             </ListGroup>
@@ -93,7 +91,7 @@ const TagsList = ({itemId, user, item, create}) => {
                 </Form>
             </Card.Header>
             <Card.Body>
-                <TagList tags={item.tags} itemId={itemId} remove={switchTag}/>
+                <TagItemList tags={item.tags} itemId={itemId} remove={switchTag}/>
             </Card.Body>
         </Card>
     );

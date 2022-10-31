@@ -3,7 +3,7 @@ import {Badge, Card, Button, ButtonGroup } from "react-bootstrap";
 import {TAG_ROUTE} from "../constants/consts";
 import {useNavigate} from "react-router-dom";
 
-const TagList = ({tags, remove, itemId}) => {
+const TagList = ({tags}) => {
     const navigate = useNavigate()
 
     return (
@@ -23,14 +23,6 @@ const TagList = ({tags, remove, itemId}) => {
                                 onClick={() => navigate(TAG_ROUTE + '/' + tag.id)}
                             >
                                 {tag.name}
-                            </Button>
-                            <Button
-                                size="sm"
-                                id={tag.id}
-                                onClick={() => {remove(itemId, tag.name)}}
-                                variant="secondary"
-                            >
-                                X
                             </Button>
                         </ButtonGroup>
                     )

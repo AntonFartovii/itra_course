@@ -29,6 +29,7 @@
   "button.admin": "Адміністратар дадаць/выдаліць",
   "button.close": "Выйсці",
   "button.enter": "Увайсці",
+  "button.tags": "Тэгі",
   "app.main.list.items": "Апошнія дададзеныя элементы",
   "app.main.list.collections": "Самыя вялікія калекцыі",
   "user.page.title": "Старонка карыстальніка",
@@ -47,5 +48,7 @@
   "auth.page.question.register": "Няма акаўнта?",
   "auth.page.question.register.link": "Зарэгістравацца!",
   "auth.page.question.enter": "Ёсць акаўнт?",
-  "auth.page.question.enter.link": "Аўтарызуйцеся!"
+  "auth.page.question.enter.link": "Аўтарызуйцеся!",
+  "userlist.title": "Спіс карыстальнікаў"
+
 }

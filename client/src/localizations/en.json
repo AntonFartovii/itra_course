@@ -29,6 +29,7 @@
   "button.admin": "Admin add/remove",
   "button.close": "close",
   "button.enter": "Enter",
+  "button.tags": "Tags",
   "app.main.list.items": "List last items",
   "app.main.list.collections": "Biggest collection list",
   "user.page.title": "User page",
@@ -46,7 +47,8 @@
   "auth.page.question.register": "Have not account?",
   "auth.page.question.register.link": "Register!",
   "auth.page.question.enter": "Have you got account?",
-  "auth.page.question.enter.link": "Authorize!"
+  "auth.page.question.enter.link": "Authorize!",
+  "userlist.title": "Users list"
 }
 
 

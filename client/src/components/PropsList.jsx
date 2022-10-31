@@ -25,7 +25,7 @@ const PropsList = ({collectionId, itemId, user}) => {
             <Accordion.Item eventKey="0">
                 <Accordion.Header>Свойства элемента</Accordion.Header>
                 <Accordion.Body>
-                    <Table striped bordered hover>
+                    <Table responsive="lg" striped bordered hover>
                         <thead>
                         <tr>
                             <th>Название</th>
