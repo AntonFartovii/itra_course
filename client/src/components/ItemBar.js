@@ -22,6 +22,7 @@ const ItemBar = ({id}) => {
                 onHide={ () => setDeleteVisible(false)}
                 id={id}
             />
+
             <EditItem
                 show={editVisible}
                 onHide={ () => setEditVisible(false)}

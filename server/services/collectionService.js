@@ -2,12 +2,26 @@ import {CollectionModel as collectionModel} from "../models/models.js";
 import {sequelize} from '../db.js'
 import {PropModel} from "../models/models.js";
 import {UserModel} from "../models/models.js";
+import {ApiError} from "../error/ApiError.js";
 
 class CollectionService {
 
     async createCollection ( dto ) {
+
         const collection = await collectionModel.create( dto )
         return collection
+    }
+
+    async updateCollection ( dto ) {
+        const {id, name, theme, description, img, prevImg, newImg} = dto
+        const collection = await this.getCollection( id )
+
+        const data = (collection.img === prevImg) && newImg
+            ? {name, theme, description}
+            : {name, theme, description, img}
+
+        collection.update( data )
+        return await collection.save()
     }
 
     async getAll ( userId, limit ) {
@@ -21,7 +35,8 @@ class CollectionService {
         const collections = async (userId, limit) => {
             let query = {
                 limit,
-                include: [UserModel],
+
+                include: [{model: UserModel, attributes: {exclude: ['password']}}],
                 attributes: {
                     include: [
                         [
@@ -49,6 +64,7 @@ class CollectionService {
             include: {model: PropModel, as: 'props'}
         })
 
+        if (!collection) return new ApiError(400)
         return collection
     }
 
@@ -56,15 +72,6 @@ class CollectionService {
         const collection = await this.getCollection( id )
         if ( !collection ) return new Error('')
         return await collection.destroy()
-    }
-
-    async updateCollection ( dto ) {
-        const {id, name, theme, description} = dto
-        const collection = await this.getCollection( id )
-        if (name) collection.name = name
-        if (theme) collection.theme = theme
-        if (description) collection.description = description
-        return await collection.save()
     }
 
 }

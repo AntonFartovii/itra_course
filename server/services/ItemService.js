@@ -16,21 +16,27 @@ class ItemService {
         return item
     }
 
-    async tag( itemId, tagId ) {
+    async tag( itemId, tagName ) {
 
-        const item = await ItemModel.findByPk( itemId )
-        const tag = await TagModel.findByPk( tagId )
+        let item = await this.getItem( itemId )
 
-        if ( !(item && tag) ) throw new Error('')
+        let tag = await TagModel.findOne({where: {name: tagName}})
+        if (!tag) tag = await TagModel.create({name: tagName})
 
         const ref = await TagItems.findOne({
             where: {
-                itemId, tagId
+                itemId, tagId: tag.id
             }
         })
 
-        if (ref) return await ref.destroy();
-        return await item.addTag( tag )
+        if (ref) {
+            await ref.destroy()
+        } else {
+            await item.addTag( tag )
+        }
+        item = await this.getItem( itemId )
+        return item.tags
+
     }
 
     async getItems ( filter, sort, limit = 10 ) {

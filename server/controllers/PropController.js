@@ -4,7 +4,7 @@ import {propService} from "../services/propService.js";
 
 class PropController {
 
-    async create(req, res, next) {
+    async createEntity(req, res, next) {
         try {
             const {name, collectionId, type} = req.body
             const data = await propService.create( {name, collectionId, type} )
@@ -14,17 +14,17 @@ class PropController {
         }
     }
 
-    async getAll(req, res, next) {
+    async getAllEntity(req, res, next) {
         try {
-            const {name, collectionId, type, limit} = req.query
-            const data = await propService.getAll({name, collectionId, type, limit})
+            const {name, itemId, collectionId, type, limit} = req.query
+            const data = await propService.getAll({name, itemId, collectionId, type, limit})
             return res.send( data )
         } catch (e) {
             next(e)
         }
     }
 
-    async getOne(req, res, next) {
+    async getOneEntity(req, res, next) {
         try {
             const id = req.params.id
             const data = await propService.getOne( id )
@@ -34,11 +34,51 @@ class PropController {
         }
     }
 
-    async delete(req, res, next) {
+    async deleteEntity(req, res, next) {
         try {
             const id = req.params.id
             const data = await propService.delete( id )
             return res.send( data )
+        } catch (e) {
+            next(e)
+        }
+    }
+
+
+
+    async createPropValue(req, res, next) {
+        try {
+            const {itemId, propId, type, value} = req.body
+            const data = await propService.createPropValue(
+                {itemId, propId, type, value}
+                )
+            return res.send( data )
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getAllPropValues(req, res, next) {
+        try {
+            const {itemId} = req.query
+            const data = await propService.getAllPropValues({itemId})
+            return res.send( data )
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getOnePropValue(req, res, next) {
+        try {
+
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deletePropValue(req, res, next) {
+        try {
+
         } catch (e) {
             next(e)
         }

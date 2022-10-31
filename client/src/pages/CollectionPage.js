@@ -7,105 +7,115 @@ import {fetchOneCollection} from "../http/collectionAPI";
 import {fetchItems} from "../http/itemAPI";
 import ItemFilter from "../components/ItemFilter";
 import {useItems} from "../components/hooks/useItems";
-import {useFetching} from "../components/hooks/useFetching";
 import CollectionBar from "../components/CollectionBar";
 import {observer} from "mobx-react-lite";
 import Markdown from "react-remarkable";
 import props from "../constants/props";
-import {login} from "../http/userAPI";
 
 const CollectionPage = observer(() => {
     const {user} = useContext(Context)
-    const {collection} = useContext(Context)
 
+    const [selectedSort, setSelectedSort] = useState('')
+    const [collection, setCollection] = useState({})
     const [items, setItems] = useState([])
-    const [filter, setFilter] = useState({sort: '', query: ''})
-
+    const [isLoading, setIsLoading] = useState(false)
     const {id} = useParams()
-
-    const [fetchData, isItemsLoading, itemError] = useFetching(async () => {
-        const data = await fetchItems(null, id)
-        setItems(data.rows)
-    })
 
     useEffect(() => {
         fetchOneCollection(id).then(data => {
-            collection.setCollection(data)
-            console.log( data )
-            collection.setRefresh(false)
+            setCollection(data)
         })
-    }, [collection.refresh])
+    }, [])
 
     useEffect( () => {
-        fetchData()
-    }, [filter])
+        fetchItems(null, id).then( data => {
+            setItems(data.rows)
+        }).finally(() => setIsLoading(false))
+    }, [])
 
-    const sortedAndSearchedItems = useItems(items, filter.sort, filter.query)
+    let obj = {}
+    collection.props && collection.props.forEach( prop => {
+        obj[prop.type] = obj[prop.type] ? obj[prop.type] + 1 : 1
+    })
 
-    console.log( props )
+    const sortItems = (event) => {
+        const sort = event.target.value
+        setSelectedSort(sort)
+        console.log( event.target.value )
+        setItems([...items].sort( (a, b) => a[sort].localeCompare(b[sort])))
+
+    }
+
+
     return (
         <Container>
-            <ItemFilter filter={filter} setFilter={setFilter}></ItemFilter>
-            <hr style={{margin: '15px 0'}}/>
-
             {
-                user.user.id === collection.collection.userId || user.isAdmin
+                (user.user.id === collection.userId || user.isAdmin)
                 && <CollectionBar
                     id={id}
-                    collection={collection.collection}
-                    setCollection={collection.setCollection}
+                    collection={collection}
+                    setCollection={setCollection}
                 />
             }
 
-
             <Card className="mb-2 mt-2">
-                <Card.Header><h3>{collection.collection.name}</h3></Card.Header>
+                <Card.Header>
+                    <Card.Title>{collection.name}</Card.Title>
+                    <Card.Subtitle>{collection.theme}</Card.Subtitle>
+                </Card.Header>
+                <Card.Img
+                    variant="top"
+                    src={process.env.REACT_APP_API_URL + '/' + collection.img}
+                />
                 <Card.Body>
-                    <Card.Title>Markdown to html description:</Card.Title>
-                    <Markdown source={collection.collection.description} />
+                    <Card.Title>Description (Markdown):</Card.Title>
+                    <Markdown source={collection.description} />
                 </Card.Body>
             </Card>
 
             <Card className="mb-2">
-                <Card.Header><h5>Collection properties</h5></Card.Header>
+                <Card.Header>
+                    <Card.Title>
+                        Collection properties
+                    </Card.Title>
+                </Card.Header>
                 <Card.Body>
-                    <Card.Title>Вы можете создать:</Card.Title>
-                    <Card.Subtitle>
+                    <Card.Title>
+                        Вы можете создать:
+                    </Card.Title>
                         {
-                            props.forEach( prop => {
-                                    console.log(prop.type)
-                                    })
-                        }
-                        {
-                            collection.collection.props && collection.collection.props.map( prop =>
-                                <h4 key={prop.id}>{prop.type}</h4>
-                            )
-                        }
-
-                        3 целочисленных поля,<br/>
-                        3 строковый поля,<br/>
-                        3 многострочных текста,<br/>
-                        3 логических да/нет чекбокса,<br/>
-                        3 поля даты
-                    </Card.Subtitle>
-
-                        {
-                            !collection.collection.props
-                                ?  'В коллекции нет созданных свойств'
-                                :   collection.collection.props.map( prop =>
-                                        <Button key={prop.id} className="mx-3" variant="info">{prop.name}</Button>
-                                    )
+                            props &&
+                                props.map( prop =>
+                                <h5 key={prop.id}>{prop.type} {prop.limit - (obj[prop.type] || 0)}/{prop.limit}</h5>
+                                )
                         }
                 </Card.Body>
+                <Card.Footer>
+                    <Card.Title>Добавленные свойства:</Card.Title>
+                    {
+                        !collection.props
+                            ?  <Card.Subtitle>В коллекции нет созданных свойств</Card.Subtitle>
+                            :   collection.props.map( prop =>
+                                <Button key={prop.id} className="mx-3" variant="info">{prop.name} ({prop.type})</Button>
+                            )
+                    }
+                </Card.Footer>
             </Card>
 
+            <div>
+                <select
+                    value={selectedSort}
+                    onChange={sortItems}>
+                    <option disabled value=""></option>
+                    <option key={"sort_name"} value="name">По названию</option>
+                    <option key={"sort_id"} value="createdAt">По дата создания</option>
+                </select>
+            </div>
+
             {
-                itemError && <h1>Произошла ошибка</h1>
-            }
-            {
-                isItemsLoading
+                isLoading
                 ?   <Spinner animation="border" size="sm" />
-                :   <ItemList key={collection.id} items={sortedAndSearchedItems}></ItemList>
+                :   <ItemList key={collection.id} items={items}></ItemList>
             }
         </Container>
     );

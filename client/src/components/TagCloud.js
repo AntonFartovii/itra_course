@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Card} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Card, Spinner} from "react-bootstrap";
 import {fetchTags} from "../http/tagAPI";
 import {Context} from "../index";
 import TagList from "./TagList";
@@ -7,14 +7,17 @@ import TagList from "./TagList";
 
 const TagCloud = () => {
     const {tag} = useContext(Context)
-
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetchTags(100). then(data => {
+        fetchTags(100).then(data => {
             tag.setTags( data )
-            console.log( data )
+        }).finally(() => {
+            setLoading(false)
         })
     }, [])
+
+    if (loading) return <Spinner animation={"grow"}/>;
 
     return (
         <Card className="mb-4">
@@ -23,9 +26,7 @@ const TagCloud = () => {
             </Card.Header>
             <Card.Body>
                 <Card.Title></Card.Title>
-                <Card.Text>
                    <TagList tags={tag.tags}/>
-                </Card.Text>
             </Card.Body>
         </Card>
     );

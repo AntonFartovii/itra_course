@@ -16,7 +16,7 @@ const AdminPage = observer (() => {
 
     }, [users])
 
-    return (<Container>
+    return (<div>
                 {
                     (!user.isAdmin || user.isBan)
                         ?   (<h1>У вас нет прав администратора</h1>)
@@ -27,7 +27,7 @@ const AdminPage = observer (() => {
                             />
                         </div>)
                 }
-            </Container>)
+            </div>)
 });
 
 export default AdminPage;

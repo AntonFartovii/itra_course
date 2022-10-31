@@ -5,21 +5,18 @@ import {editCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
 import CollectionForm from "../forms/CollectionForm";
 
-const EditCollection = ({show, onHide, id, collection, setCollection}) => {
+const EditCollection = ({show, onHide, id, form, setForm}) => {
 
     const click = () => {
 
-        editCollection(collection).then( data => {
+        editCollection( form ).then( data => {
             onHide()
         })
     }
-
+    form.prevImg = form.img
+    console.log(form)
     return (
-        <Modal
-            show={show}
-            onHide={onHide}
-            centered
-        >
+        <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Are you sure
@@ -27,7 +24,7 @@ const EditCollection = ({show, onHide, id, collection, setCollection}) => {
             </Modal.Header>
 
             <Modal.Body>
-                <CollectionForm collection={collection} setCollection={setCollection}/>
+                <CollectionForm form={form} setForm={setForm}/>
             </Modal.Body>
 
             <Modal.Footer>

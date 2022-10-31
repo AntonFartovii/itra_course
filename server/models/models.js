@@ -26,7 +26,8 @@ export const CollectionModel = sequelize.define('collection', {
     id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:           {type: DataTypes.STRING},
     description:    {type: DataTypes.TEXT},
-    theme:          {type: DataTypes.STRING}
+    theme:          {type: DataTypes.STRING},
+    img:            {type: DataTypes.STRING}
 })
 
 export const ItemModel = sequelize.define('item', {
@@ -65,7 +66,13 @@ export const UserRoles = sequelize.define('user_role', {
 })
 
 export const ItemProps = sequelize.define('item_prop', {
-    id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+    id:             {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    type:           {type: DataTypes.STRING},
+    checkbox:       {type: DataTypes.BOOLEAN},
+    integer:        {type: DataTypes.INTEGER},
+    textarea:       {type: DataTypes.TEXT},
+    string:         {type: DataTypes.STRING},
+    date:           {type: DataTypes.DATE}
 })
 
 UserModel.hasMany(CollectionModel)
@@ -80,11 +87,17 @@ TokenModel.belongsTo(UserModel)
 UserModel.hasMany(CommentModel)
 CommentModel.belongsTo(UserModel)
 
-CollectionModel.hasMany(ItemModel, {as: 'items'})
+CollectionModel.hasMany(ItemModel, {as: 'items', onDelete: 'cascade', hooks: true} )
 ItemModel.belongsTo(CollectionModel)
 
-CollectionModel.hasMany(PropModel, {as: 'props'})
+CollectionModel.hasMany(PropModel, {as: 'props', onDelete: 'cascade', hooks: true})
 PropModel.belongsTo(CollectionModel)
+
+ItemModel.hasMany(ItemProps, {as: 'info', onDelete: 'cascade', hooks: true})
+ItemProps.belongsTo(ItemModel)
+
+PropModel.hasMany(ItemProps, {as: 'values', onDelete: 'cascade', hooks: true})
+ItemProps.belongsTo(PropModel)
 
 ItemModel.hasMany(CommentModel)
 CommentModel.belongsTo(ItemModel)
@@ -101,8 +114,8 @@ RoleModel.belongsToMany(UserModel, {through: UserRoles})
 ItemModel.belongsToMany(TagModel, {through: TagItems, as: 'tags', foreignKey: 'itemId'})
 TagModel.belongsToMany(ItemModel, {through: TagItems, as: 'items', foreignKey: 'tagId'})
 
-PropModel.belongsToMany(ItemModel, {through: ItemProps})
-ItemModel.belongsToMany(PropModel, {through: ItemProps})
+// PropModel.belongsToMany(ItemModel, {through: ItemProps})
+// ItemModel.belongsToMany(PropModel, {through: ItemProps})
 
 // await UserModel.sync();
 // await RoleModel.sync();
@@ -113,3 +126,7 @@ ItemModel.belongsToMany(PropModel, {through: ItemProps})
 // await TagItems.sync();
 
 sequelize.sync()
+
+// Атрибут allowNull указывает, допускает ли поле отсутствие значение.
+// По умолчанию имеет значение true - то есть у поля может отсутствовать значение.
+// Значение false указывает, что поле обязательно должно иметь какое-либо значение.

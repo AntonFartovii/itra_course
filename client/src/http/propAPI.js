@@ -2,24 +2,28 @@
 import {$authHost, $host} from "./index";
 
 export const createProp = async ( content ) => {
-    const {data} = await $authHost.post('api/prop/', content)
+    const {data} = await $authHost.post('api/prop/entity/', content)
     return data
 }
 
-export const fetchProps = async ( name, collectionId ) => {
-    const {data} = await $host.get('api/prop/', {params: {
-            name, collectionId
+export const fetchProps = async ( collectionId, itemId) => {
+    const {data} = await $host.get('api/prop/entity/', {params: {
+            collectionId, itemId
         }})
     return data
 }
 
-export const fetchOneProp = async ( id ) => {
-    const {data} = await $host.get('api/prop/' + id)
+export const createPropValue = async ( propValue ) => {
+    const {data} = await $authHost.post('api/prop/value/', propValue)
     return data
 }
 
+export const fetchOneProp = async ( id ) => {
+    const {data} = await $host.get('api/prop/entity/' + id)
+    return data
+}
 
 export const deleteProp = async (id) => {
-    const {data} = await $authHost.delete('api/prop/' + id)
+    const {data} = await $authHost.delete('api/prop/entity/' + id)
     return data
 }

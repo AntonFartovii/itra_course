@@ -15,8 +15,8 @@ class ItemController {
 
     async addTag(req, res, next) {
         try {
-            const {itemId, tagId} = req.body
-            const data = await itemService.tag( itemId, tagId )
+            const {itemId, tagName} = req.body
+            const data = await itemService.tag( itemId, tagName )
             return res.send( data )
         } catch (e) {
             next(e)

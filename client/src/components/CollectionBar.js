@@ -29,8 +29,8 @@ const CollectionBar = ({id, collection, setCollection}) => {
             </Button>
 
             <EditCollection
-                collection={collection}
-                setCollection={setCollection}
+                form={collection}
+                setForm={setCollection}
                 show={editVisible}
                 onHide={ () => setEditVisible(false)}
                 id={id}

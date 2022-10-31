@@ -8,6 +8,7 @@ import {TagStore} from "./stores/TagStore";
 import {AdminStore} from "./stores/AdminStore";
 import locales from "./constants/locales";
 import LocalStore from "./stores/localStore";
+import CommentStore from "./stores/commentStore";
 
 export const Context = createContext({
     locale: locales.EN
@@ -16,16 +17,19 @@ export const Context = createContext({
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <React.StrictMode>
             <Context.Provider value={{
                 user: new UserStore(),
                 admin: new AdminStore(),
                 item: new ItemStore(),
                 collection: new CollectionStore(),
                 tag: new TagStore(),
-                localization: new LocalStore()
+                localization: new LocalStore(),
+                commentStore: new CommentStore()
             }}>
                 <App />
             </Context.Provider>
+    </React.StrictMode>
 );
 
 

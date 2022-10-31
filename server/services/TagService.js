@@ -2,6 +2,7 @@
 import {TagModel, ItemModel} from "../models/models.js";
 import {UserModel} from "../models/models.js";
 import {CollectionModel} from "../models/models.js";
+import {TagItems} from "../models/models.js";
 
 function createQuery( dto ) {
     const {name, limit = 10} = dto
@@ -51,6 +52,11 @@ class TagService {
         const entity = await TagModel.findByPk( id )
         if ( !entity ) throw new Error('')
         return await entity.destroy()
+    }
+
+    async deleteItemTag( id ) {
+        const itemTag = await TagItems.findByPk( id )
+        if ( itemTag ) return itemTag.destroy()
     }
 }
 

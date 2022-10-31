@@ -35,7 +35,7 @@ const AuthPage = () => {
     }
 
     return (
-        <Container
+        <div
             className="d-flex justify-content-center align-items-center"
             style={{height: window.innerHeight - 54}}
         >
@@ -88,7 +88,7 @@ const AuthPage = () => {
                     </Row>
                 </Form>
             </Card>
-        </Container>
+        </div>
     );
 };
 

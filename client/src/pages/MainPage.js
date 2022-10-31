@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Container} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Container, Spinner} from "react-bootstrap";
 import ItemList from "../components/ItemList";
 
 import {observer} from "mobx-react-lite";
@@ -9,12 +9,13 @@ import CollectionList from "../components/CollectionList";
 import {fetchCollections} from "../http/collectionAPI";
 import { FormattedMessage } from 'react-intl'
 import TagCloud from "../components/TagCloud";
-import Test from "../components/test";
 
 const Main = observer(() => {
     const {user} = useContext(Context)
     const {item} = useContext(Context)
-    const {collection} = useContext(Context)
+
+    const [collections, setCollections] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect( () => {
         fetchItems(null,null,10, 'createdAt').then( data => {
@@ -25,14 +26,14 @@ const Main = observer(() => {
 
     useEffect( () => {
         fetchCollections(null,5).then( data => {
-            collection.setCollections(data.rows)
-            collection.setTotalCount(data.count)
-        })
+            setCollections(data.rows)
+        }).finally(() => setLoading(false))
     }, [user.auth])
 
+    if (loading) return <Spinner animation={"grow"}/>;
 
     return (
-        <Container>
+        <div>
             <TagCloud/>
             <ItemList
                 items = {item.items}
@@ -40,10 +41,12 @@ const Main = observer(() => {
             />
 
             <CollectionList
-                collections = {collection.collections}
+                collections = {collections}
+                setCollections = {setCollections}
                 title={<FormattedMessage id='app.main.list.collections' />}
+                userId={user.user.id}
             />
-        </Container>
+        </div>
     );
 });
 

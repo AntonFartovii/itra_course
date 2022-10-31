@@ -5,22 +5,29 @@ import {createCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
 import CollectionForm from "../forms/CollectionForm";
 
-const CreateCollection = ({show, onHide, userId}) => {
+const CreateCollection = ({create, show, onHide, userId}) => {
 
-    const [collection, setCollection] = useState({})
+    const [form, setForm] = useState({
+        name: '',
+        theme: '',
+        description: '',
+        file: {}
+    })
+
 
     const addCollection = () => {
-        createCollection({...collection, userId}).then( data => {
+        createCollection({...form, userId}).then( data => {
+            create(data)
+            setForm({ name: '',
+                theme: '',
+                description: '',
+                file: {}})
             onHide()
         })
     }
 
     return (
-        <Modal
-            show={show}
-            onHide={onHide}
-            centered
-        >
+        <Modal show={show} onHide={onHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Add Collection
@@ -28,7 +35,7 @@ const CreateCollection = ({show, onHide, userId}) => {
             </Modal.Header>
 
             <Modal.Body>
-                <CollectionForm collection={collection} setCollection={setCollection}/>
+                <CollectionForm form={form} setForm={setForm}/>
             </Modal.Body>
 
             <Modal.Footer>

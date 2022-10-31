@@ -12,7 +12,7 @@ const User = (props) => {
                 <td>{props.index || 'not data'}</td>
                 <td>{props.item.id}</td>
                 <td>
-                    <NavLink onClick={()=> navigate(ADMIN_ROUTE + '/user/' + props.item.id, { replace: true })}>
+                    <NavLink className="mb-2" onClick={()=> navigate(ADMIN_ROUTE + '/user/' + props.item.id, { replace: true })}>
                         {props.item.name}
                     </NavLink>
                 </td>

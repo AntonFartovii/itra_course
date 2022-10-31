@@ -1,49 +1,57 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import NavLink from 'react-bootstrap/NavLink';
 import {COLLECTION_PAGE_ROUTE} from "../constants/consts";
 import {useNavigate} from 'react-router-dom'
 import CollectionBar from "./CollectionBar";
 import {Context} from "../index";
-import ItemBar from "./ItemBar";
+import {observer} from "mobx-react-lite";
 
-const Collection = ( props ) => {
+const Collection = observer(( props ) => {
     const {user} = useContext(Context)
-    const id = props.collection.id
-    const author = props.collection.user.email
+    const {index} = props
+    let [collection, setCollection] = useState({...props.collection})
+    const id = collection.id
 
     const navigate = useNavigate()
 
-    return (
+    // console.log( new Proxy(collection, {}))
 
+    return (
                 <tr>
                     <td>
-                        {props.index}
+                        {index}
                     </td>
                     <td>
                         <NavLink onClick={()=> navigate(COLLECTION_PAGE_ROUTE + '/' + id, { replace: true })}>
-                            {props.collection.name}
+                            {collection.name}
                         </NavLink>
                     </td>
                     <td>
-                        {props.collection.user && props.collection.user.email}
+                        {   collection.user
+                                ? collection.user.email
+                                : collection.userId
+                        }
                     </td>
                     <td>
-                        {props.collection.count}
+                        {collection.count}
                     </td>
                     {
                         window.location.pathname !== '/'
                         && <td>
                             {
-                                user.isAdmin || user.user.id === id
-                                    ? <CollectionBar id={id} collection={props.collection}/>
+                                (user.isAdmin || user.user.id === collection.userId)
+                                    ? <CollectionBar
+                                        id={id}
+                                        collection={collection}
+                                        setCollection={setCollection}
+                                      />
                                     : <h4>Admin-only access</h4>
                             }
-
-                        </td>
+                            </td>
                     }
 
                 </tr>
     );
-};
+});
 
 export default Collection;

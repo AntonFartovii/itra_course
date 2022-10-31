@@ -8,7 +8,7 @@ const UserList = ({users, title}) => {
     return (
         <div>
             <h1>{title}</h1>
-            <Table striped bordered hover>
+            <Table responsive="lg" striped bordered hover>
                 <thead>
                 <tr>
                     <th>#</th>

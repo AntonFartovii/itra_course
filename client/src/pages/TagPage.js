@@ -18,7 +18,7 @@ const TagPage = () => {
     }, [])
 
     return (
-        <Container>
+        <div>
             <Card>
                 <Card.Header>
                     <h3>Элементы с тэгом {tag.tag.name}</h3>
@@ -34,7 +34,7 @@ const TagPage = () => {
                 </Card.Body>
             </Card>
 
-        </Container>
+        </div>
     );
 };
 

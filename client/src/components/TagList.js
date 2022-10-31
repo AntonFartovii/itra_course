@@ -1,9 +1,9 @@
 import React from 'react';
-import {Badge, Card} from "react-bootstrap";
+import {Badge, Card, Button, ButtonGroup } from "react-bootstrap";
 import {TAG_ROUTE} from "../constants/consts";
 import {useNavigate} from "react-router-dom";
 
-const TagList = ({tags}) => {
+const TagList = ({tags, remove, itemId}) => {
     const navigate = useNavigate()
 
     return (
@@ -12,16 +12,27 @@ const TagList = ({tags}) => {
                 !tags
                     ? ''
                     : tags.map( tag =>
-                        <Badge link
-                               onClick={() => navigate(TAG_ROUTE + '/' + tag.id)}
-                               className="mx-3"
-                               pill
-                               bg="warning"
-                               key={tag.id}
-                               text="dark"
+                        <ButtonGroup
+                            className="mb-2 mx-2"
+                            key={tag.id}
+                            aria-label="Basic example"
                         >
-                            {tag.name}
-                        </Badge>
+                            <Button
+                                variant="warning"
+                                size="sm"
+                                onClick={() => navigate(TAG_ROUTE + '/' + tag.id)}
+                            >
+                                {tag.name}
+                            </Button>
+                            <Button
+                                size="sm"
+                                id={tag.id}
+                                onClick={() => {remove(itemId, tag.name)}}
+                                variant="secondary"
+                            >
+                                X
+                            </Button>
+                        </ButtonGroup>
                     )
             }
         </div>

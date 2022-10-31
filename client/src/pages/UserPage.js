@@ -10,8 +10,11 @@ import CollectionList from "../components/CollectionList";
 import { FormattedMessage } from 'react-intl'
 
 const UserPage = observer(() => {
+    const {user} = useContext(Context)
+
     const [author, setAuthor] = useState({})
-    const {user, collection} = useContext(Context)
+    const [collections, setCollections] = useState({})
+
     const {id} = useParams()
     const userId = id ? id : user.user.id
 
@@ -20,7 +23,9 @@ const UserPage = observer(() => {
     }, [])
 
     useEffect( () => {
-        fetchCollections(userId, 10).then(data => collection.setCollections(data.rows))
+        fetchCollections(userId, 10).then(
+            data => setCollections(data.rows)
+        )
     },[])
 
     if (id && !user.isAdmin) {
@@ -28,14 +33,18 @@ const UserPage = observer(() => {
     }
 
     return (
-        <Container>
+        <div>
+
             <UserCurrent user={author}/>
+
             <CollectionList
-                collections={collection.collections}
+                collections={collections}
+                setCollections={setCollections}
                 userId={userId}
                 title={<FormattedMessage id='user.page.collections.title' />}
             />
-        </Container>
+
+        </div>
     )
 });
 

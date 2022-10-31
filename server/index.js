@@ -15,6 +15,7 @@ import {commentRouter} from "./routes/commentRouter.js";
 import {itemRouter} from "./routes/itemRouter.js";
 import {likeRouter} from "./routes/likeRouter.js";
 import {propRouter} from "./routes/propRouter.js";
+import fileUpload from 'express-fileupload'
 
 const PORT = Number(process.env.PORT) || 5001
 const app = express()
@@ -22,10 +23,12 @@ const dirname = getDirname( import.meta.url )
 
 app.use(cors())
 app.use(express.json())
-// app.use(express.static( path.resolve(dirname,'./public/')))
+app.use(express.static( path.join(dirname, 'static') ))
+app.use(fileUpload({}))
 app.use(cookieParser())
+
 app.get('/', function (req, res) {
-    res.send('Client: <a href="https://irtaclient.vercel.com">https://irtaclient.vercel.app</a>');
+    res.send('Client: <a href="https://itraclient.vercel.app/">https://itraclient.vercel.app/</a>');
 })
 app.use('/api/auth', authRouter)
 app.use('/api/user', userRouter)

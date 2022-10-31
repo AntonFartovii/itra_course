@@ -4,15 +4,17 @@ import {Alert, Button, Table} from "react-bootstrap";
 import CreateCollection from "./modals/CreateCollection";
 import {Context} from "../index";
 import { FormattedMessage } from 'react-intl'
-import {useNavigate} from 'react-router-dom'
-import {withRouter} from 'react-router-dom'
+import {observer} from "mobx-react-lite";
 
-const CollectionList = ({ collections, title = 'Collections list', userId}) => {
+const CollectionList = observer(({ collections, setCollections, title = 'Collections list', userId}) => {
+
     const [addVisible, setAddVisible] = useState(false)
     const {user} = useContext(Context)
-    const navigate = useNavigate()
 
-    console.log( window.location.pathname )
+    const createCollection = (newCollection) => {
+        setCollections([...collections, newCollection])
+    }
+
     return (
         <div>
             <h2>{title}</h2>
@@ -28,12 +30,13 @@ const CollectionList = ({ collections, title = 'Collections list', userId}) => {
             }
 
             <CreateCollection
+                create={createCollection}
                 userId={userId}
                 show={addVisible}
                 onHide={() => setAddVisible(false)}
             />
 
-            <Table striped bordered hover>
+            <Table responsive="lg" striped bordered hover>
                 <thead>
                 <tr>
                     <th>№</th>
@@ -70,6 +73,6 @@ const CollectionList = ({ collections, title = 'Collections list', userId}) => {
 
         </div>
     );
-};
+});
 
 export default CollectionList;

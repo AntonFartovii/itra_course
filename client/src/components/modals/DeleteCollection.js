@@ -1,16 +1,18 @@
 import React, {useContext, useState} from 'react';
-import Modal from "react-bootstrap/Modal";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import {deleteCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
+import {useNavigate} from 'react-router-dom';
+import {MAIN_ROUTE} from "../../constants/consts";
 
 const DeleteCollection = ({show, onHide, id}) => {
     const {collection} = useContext(Context)
+    const navigate = useNavigate()
 
     const removeCollection = () => {
         deleteCollection(id ).then( data => {
             onHide()
-            collection.refresh = true
+            navigate(MAIN_ROUTE)
         })
     }
 

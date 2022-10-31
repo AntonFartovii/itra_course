@@ -1,11 +1,13 @@
 import React, {useContext, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {Button, Form} from "react-bootstrap";
-import {createCollection} from "../../http/collectionAPI";
 import {Context} from "../../index";
 import {createItem} from "../../http/itemAPI";
+import {useNavigate} from 'react-router-dom';
+import {COLLECTION_PAGE_ROUTE} from "../../constants/consts";
 
 const CreateItem = ({show, onHide, collectionId, userId}) => {
+    const navigate = useNavigate()
     const [value, setValue] = useState('')
     const {item} = useContext(Context)
 
@@ -13,7 +15,7 @@ const CreateItem = ({show, onHide, collectionId, userId}) => {
         createItem({name: value, collectionId, userId}).then( data => {
             setValue('')
             onHide()
-            item.setRefresh(true)
+            navigate(COLLECTION_PAGE_ROUTE + '/' + collectionId)
         })
     }
 

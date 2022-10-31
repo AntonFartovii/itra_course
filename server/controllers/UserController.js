@@ -21,6 +21,16 @@ class UserController {
         }
     }
 
+    async updateUser(req, res, next) {
+        try {
+            const {email, name, newEmail} = req.body
+            const userData = await userService.updateUser({email, name,  newEmail} )
+            return res.send( userData )
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async addRole(req, res, next) {
         try {
             const {id, value} = req.body

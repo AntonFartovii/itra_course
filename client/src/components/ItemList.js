@@ -11,7 +11,7 @@ const ItemList = observer(({items = [],title}) => {
 
             <div>
                     <h2>{title}</h2>
-                    <Table striped bordered hover>
+                    <Table responsive="lg" striped bordered hover>
                         <thead>
                         <tr>
                             <th>№</th>

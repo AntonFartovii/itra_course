@@ -3,14 +3,25 @@ import {makeAutoObservable} from "mobx";
 export default class ItemStore{
     constructor() {
         this._items = []
+        this._item = {}
+        this._comments = []
         this._limit = 5
         this._totalCount = 0
         this._refresh = false
-        makeAutoObservable( this )
+        makeAutoObservable( this, {})
     }
 
     setItems(items) {
         this._items = items
+    }
+
+    setComments(comments) {
+        this._comments = comments
+    }
+
+
+    setItem(item) {
+        this._item = item
     }
 
     setTotalCount(count) {
@@ -25,6 +36,11 @@ export default class ItemStore{
         return this._items
     }
 
+
+    get item() {
+        return this._item
+    }
+
     get refresh() {
         return this._refresh
     }
@@ -35,5 +51,9 @@ export default class ItemStore{
 
     get totalCount() {
         return this._totalCount
+    }
+
+    get comments() {
+        return this._comments
     }
 }

@@ -6,7 +6,12 @@ export default class UserStore {
         this._isAdmin = false
         this._isBan = false
         this._user = {}
+        this._isAuthor = false
         makeAutoObservable( this )
+    }
+
+    setIsAuthor(bool) {
+        this._isAuthor = bool
     }
 
     setIsAuth(bool) {
@@ -39,5 +44,9 @@ export default class UserStore {
 
     get user() {
         return this._user
+    }
+
+    get isAuthor() {
+        return this._isAuthor
     }
 }

@@ -6,6 +6,7 @@ import {CollectionModel} from "../models/models.js";
 
 class UserService {
 
+
     async getAllUsers() {
         return await userModel.findAll({
             attributes: {exclude: ['password', 'activationLink']},
@@ -42,9 +43,9 @@ class UserService {
     async switchAdminRole(id) {
         const user = await this.getUserById( id )
         if (!user) throw new ApiError.badRequest('Cat not delete user, user does not exist');
-        user.role === 'ADMIN'
-        ? user.role = 'USER'
-        : user.role = 'ADMIN'
+        user.role = user.role === 'ADMIN'
+            ? 'USER'
+            : 'ADMIN'
 
         return await user.save()
     }
@@ -64,6 +65,15 @@ class UserService {
         return userData
     }
 
+
+    async updateUser( dto ) {
+        const {name, email,  newEmail} = dto
+        const user = await userModel.findOne({where:{email}})
+        if (!user) return new ApiError(400,'','')
+        if ( newEmail ) user.email =  newEmail
+        if ( name ) user.name =  name
+        return await user.save()
+    }
 }
 
 
